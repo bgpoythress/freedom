@@ -1,0 +1,5 @@
+//EventHandler.js
+
+function EventHandler(){
+
+}
