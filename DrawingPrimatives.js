@@ -3,7 +3,7 @@
 //16APR2018
 //Description: 
 //To draw things, you need color, points, lines...other things to come maybe  
-//Those items are described here..
+//Those items are described here..///
 
 //------------------------------------------------------------------------------------
 //color class
