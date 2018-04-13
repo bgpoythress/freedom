@@ -29,12 +29,21 @@ function main(){
 	//load state
 	var currentState = new State(gl);
 	
-	//start game loop
-	//update state
 	
-	
+	//holds the time of last view update
+	var lastUpdate = Date.now();
+
+
 	//draw state
 	currentState.draw(gl, renderer);
+
+	var gameLoop = function(){
+			update(lastUpdate);
+			draw(gl, renderer);
+	};
+
+	//starting the main game loop
+	requestAnimationFrame(gameLoop);
 }	
 	
 ////////////////////////////////////////////////////////////////////////////////////
