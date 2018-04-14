@@ -8,12 +8,13 @@ function Renderer(gl){
 	this.VSHADER_SOURCE = 
 		'attribute vec4 a_Position;\n' +
 		'attribute vec4 a_Color;\n' +
-		//'uniform mat4 u_ViewMatrix;\n' +
-		//'uniform mat4 u_ProjMatrix;\n' +
+		//'uniform mat4 u_ModelMatrix;\n'+
+		'uniform mat4 u_ViewMatrix;\n' +
+		'uniform mat4 u_ProjMatrix;\n' +
 		'varying vec4 v_Color;\n' +
 		'void main() {\n' +
-		//'	gl_Position = u_ProjMatrix * u_ViewMatrix * a_Position;\n'+
-		'	gl_Position = a_Position;\n'+
+		'	gl_Position = u_ProjMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;\n'+
+		//'	gl_Position = a_Position;\n'+
 		'	gl_PointSize = 50.0;\n'+
 		'	v_Color = a_Color;\n'+
 		'}\n';
@@ -31,7 +32,7 @@ function Renderer(gl){
 	//initialize the renderer
 	this.init(gl)
 	
-	//get the locations of the shader variables
+	//get the locations of the attribute variables
 	this.a_Position = gl.getAttribLocation(gl.program, 'a_Position');
 	if (this.a_Position<0){
 		console.log('Failed to get location of a_Position');
@@ -41,6 +42,9 @@ function Renderer(gl){
 	if (this.a_Color<0){
 		console.log('Failed to get location of a_Color');
 	}
+
+	//get the locations of the uniform variables
+	this.
 		
 	
 }	

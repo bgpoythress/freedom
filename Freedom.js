@@ -27,7 +27,7 @@ function main(){
 	
 	
 	//load state
-	var currentState = new State(gl);
+	var currentState = new ModelState(gl);
 	
 	
 	//holds the time of last view update
@@ -37,13 +37,15 @@ function main(){
 	//draw state
 	currentState.draw(gl, renderer);
 
+	//define the game Loop
 	var gameLoop = function(){
-			update(lastUpdate);
-			draw(gl, renderer);
+			currentState.update(lastUpdate);
+			currentState.draw(gl, renderer);
+			requestAnimationFrame(gameLoop);
 	};
 
 	//starting the main game loop
-	requestAnimationFrame(gameLoop);
+	gameLoop();
 }	
 	
 ////////////////////////////////////////////////////////////////////////////////////
