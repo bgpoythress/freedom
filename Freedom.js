@@ -22,15 +22,12 @@ function main(){
 		return;
 	}
 
-	//create the id generator variable
-	var nextID = 1;
-	
 	//create the renderer instance
 	var renderer = new Renderer(gl);
 	
 	
 	//load state
-	var currentState = new ModelState(gl);
+	var currentState = new ModelState();
 	
 	
 	//holds the time of last view update
@@ -38,12 +35,12 @@ function main(){
 
 
 	//draw state
-	currentState.draw(gl, renderer);
+	renderer.draw(currentState);
 
 	//define the game Loop
 	var gameLoop = function(){
 			currentState.update(lastUpdate);
-			currentState.draw(gl, renderer);
+			renderer.draw(currentState);
 			requestAnimationFrame(gameLoop);
 	};
 
