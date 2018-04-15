@@ -36,16 +36,34 @@ function Renderer(gl){
 	this.a_Position = gl.getAttribLocation(gl.program, 'a_Position');
 	if (this.a_Position<0){
 		console.log('Failed to get location of a_Position');
+		return;
 	}
 	
 	this.a_Color = gl.getAttribLocation(gl.program, 'a_Color');
 	if (this.a_Color<0){
 		console.log('Failed to get location of a_Color');
+		return;
 	}
 
 	//get the locations of the uniform variables
-	this.
-		
+	this.u_ProjMatrix = gl.getUniformLocation(gl.program, "u_ProjMatrix");
+	if(this.u_ProjMatrix<0){
+		console.log('Failed to get location of u_ProjMatrix');
+		return;
+	}
+
+	this.u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix");
+	if(this.u_ViewMatrix<0){
+		console.log('Failed to get location of u_ViewMatrix');
+		return;
+	}
+
+	this.u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
+	if(this.u_ModelMatrix<0){
+		console.log('Failed to get location of u_ModelMatrix');
+		return;
+	}
+	
 	
 }	
 	

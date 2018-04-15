@@ -21,6 +21,9 @@ function main(){
 		console.log('Failed to get the rendering context for WebGL');
 		return;
 	}
+
+	//create the id generator variable
+	var nextID = 1;
 	
 	//create the renderer instance
 	var renderer = new Renderer(gl);
