@@ -12,17 +12,20 @@ function LabScene(){
 	floorPlane = new Plane(this.IdGen.getId(), 0.0, 0.0, 0.0, 
 		0.0, 1.0, 0.0, 0.0, 0.0, -1.0);
 
-	sketch = new Sketch(this.IdGen.getId(), floorPlane);
+	sketch1 = new sketch(this.IdGen.getId(), floorPlane);
 
 
 	//define the size of the scene in mm
 	this.width = 10000.0;
 	this.length = 10000.0;
 
-	sketch.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
-	sketch.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
-	sketch.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
-	sketch.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
+	sketch1.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
+	sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
+	sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
+	sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
+
+	this.renderList = [sketch1];
+
 
 }
 

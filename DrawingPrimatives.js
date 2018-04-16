@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------------
 //color class
 function Color(rIn,gIn,bIn,aIn){
+	this.type = "Color";
 	this.r = rIn;
 	this.g = gIn;
 	this.b = bIn;

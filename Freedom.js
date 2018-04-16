@@ -40,7 +40,7 @@ function main(){
 	//define the game Loop
 	var gameLoop = function(){
 			currentState.update(lastUpdate);
-			renderer.draw(currentState);
+			renderer.render(currentState);
 			requestAnimationFrame(gameLoop);
 	};
 

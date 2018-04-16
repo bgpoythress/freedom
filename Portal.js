@@ -1,8 +1,8 @@
 //Portal.js
 
 function Portal(){
-
-	this.itemList = [];
+	this.type = "Portal";
+	this.renderList = [];
 	//this.init(gl);
 
 }

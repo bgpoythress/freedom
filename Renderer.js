@@ -64,7 +64,6 @@ function Renderer(gl){
 		return;
 	}
 	
-	
 }	
 	
 	

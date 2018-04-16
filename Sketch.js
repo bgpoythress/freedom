@@ -7,7 +7,7 @@ function Sketch(idIn, planeIn){
 	this.plane = planeIn;
 
 	//this is the list of objects in the sketch
-	this.primativeList = [];
+	this.renderList = [];
 
 	//every child of the sketch gets a local id number
 	this.idGen = new IdGenerator();
@@ -15,5 +15,5 @@ function Sketch(idIn, planeIn){
 
 Sketch.prototype.addPoint = function(xIn, yIn, zIn, colorIn){
 	point = new Point(this.idGen.getId, xIn, yIn, zIn, colorIn);
-	this.primativeList.push(point);
+	this.renderList.push(point);
 }
