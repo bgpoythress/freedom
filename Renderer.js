@@ -8,7 +8,7 @@ function Renderer(gl){
 	this.VSHADER_SOURCE = 
 		'attribute vec4 a_Position;\n' +
 		'attribute vec4 a_Color;\n' +
-		//'uniform mat4 u_ModelMatrix;\n'+
+		'uniform mat4 u_ModelMatrix;\n'+
 		'uniform mat4 u_ViewMatrix;\n' +
 		'uniform mat4 u_ProjMatrix;\n' +
 		'varying vec4 v_Color;\n' +
@@ -27,10 +27,16 @@ function Renderer(gl){
 		'gl_FragColor = v_Color;\n' +
 		'}\n';
 	
+	//initialize shaders
+	if(!initShaders(gl, this.VSHADER_SOURCE, this.FSHADER_SOURCE)){
+		console.log('Failed to initialize shaders.');
+		return;
+	}
 	//end of shader code-------------------------------------------------------------------	
 	
-	//initialize the renderer
-	this.init(gl)
+	//Specify the color for clearing the canvas
+	gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	gl.clear(gl.COLOR_BUFFER_BIT);
 	
 	//get the locations of the attribute variables
 	this.a_Position = gl.getAttribLocation(gl.program, 'a_Position');
@@ -63,23 +69,17 @@ function Renderer(gl){
 		console.log('Failed to get location of u_ModelMatrix');
 		return;
 	}
+
+	//create the graphics memory manager object
+	this.memory = new GPUMemManager(gl, 1024);
+
+	
+
+
 	
 }	
 	
-//initialize the renderer	
-Renderer.prototype.init = function(gl){
-	
-	//Initialize shaders
-	if(!initShaders(gl, this.VSHADER_SOURCE, this.FSHADER_SOURCE)){
-		console.log('Failed to initialize shaders.');
-		return;
-	}
-	
-	//Specify the color for clearing the canvas
-	gl.clearColor(0.0, 0.0, 0.0, 1.0);
-	gl.clear(gl.COLOR_BUFFER_BIT);
 
-}
 
 //------------------------------------------------------------------------------------
 //This set of functions is the meat an potatoes of the renderer.  It  searches through
@@ -112,6 +112,10 @@ Renderer.prototype.render = function(gl, thingToRender){
 }
 
 Renderer.prototype.renderPlane = function(gl, plane){
+	//if the plane has changed or never been rendererd before
+	//then build the object and load it into memory
+	if(plane.isDirty || plane.graphicsMemoryAddress == null){
+		this.memory.update(plane);
 	
 }
 
@@ -122,6 +126,8 @@ Renderer.prototype.renderLine = function(gl, line){
 Renderer.prototype.renderPoint = function(gl, point){
 	
 }
+
+
 
 //end of meat and potatoes--------------------------------------------------------------	
 

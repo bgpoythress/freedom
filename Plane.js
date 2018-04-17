@@ -3,6 +3,7 @@
 function Plane(idIn, xIn, yIn, zIn, normalXIn, normalYIn, normalZIn, upXIn, upYIn, upZIn){
 	this.type = "Plane";
 	this.hasRenderList = false;
+	this.graphicsMemoryAddress = null;
 	this.id = idIn;
 
 	//location of the plane's center point

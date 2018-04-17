@@ -29,6 +29,7 @@ var WHITE = new Color(1.0, 1.0, 1.0, 1.0);
 function Point(idIn, xIn, yIn, zIn, colorIn){
 	this.type = "Point";
 	this.hasRenderList = false;
+	this.graphicsMemoryAddress = null;
 	this.id = idIn;
 	this.x = xIn;
 	this.y = yIn;
@@ -38,31 +39,6 @@ function Point(idIn, xIn, yIn, zIn, colorIn){
 	this.color.g = colorIn.g;
 	this.color.b = colorIn.b;
 	this.color.a = colorIn.a;
-	// this.verticesColors = new Float32Array([
-	// 	this.x,  this.y,  this.z,  			//pt1 location
-	// 	this.color.r,  this.color.g,  this.color.b, this.color.a	//pt1 color
-	// ]);
-
-	// this.n = 1;
-	
-	// //create buffer object
-	// this.vertexColorBuffer = gl.createBuffer();
-	// if(!this.vertexColorBuffer){
-	// 	console.log('Failed to create buffer object');
-	// 	return -1;
-	// }
-	
-	// //Bind the buffer object to the target
-	// gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexColorBuffer);
-	
-	// //Write data into the buffer object
-	// gl.bufferData(gl.ARRAY_BUFFER, this.verticesColors, gl.STATIC_DRAW);
-	
-	// // Unbind the buffer object
-	// gl.bindBuffer(gl.ARRAY_BUFFER, null);
-	
-	// this.FSIZE = this.verticesColors.BYTES_PER_ELEMENT;
-	
 }
 
 Point.prototype.setColorByObject = function(colorIn){
@@ -81,6 +57,7 @@ Point.prototype.setColorByObject = function(colorIn){
 function Line(idIn, point1In, point2In, colorIn){
 	this.type = "Line";
 	this.hasRenderList = false;
+	this.graphicsMemoryAddress = null;
 	this.id = idIn;
 	this.point1 = point1In;
 	this.point2 = point2In;
@@ -91,36 +68,6 @@ function Line(idIn, point1In, point2In, colorIn){
 	this.color.g = colorIn.g;
 	this.color.b = colorIn.b;
 	this.color.a = colorIn.a;
-	
-	// this.verticesColors = new Float32Array([
-
-	// this.point1.x,  this.point1.y,  this.point1.z,  			//pt1 location
-	// this.color.r,  this.color.g,  this.color.b, this.color.a,	//pt1 color
-		
- //    this.point2.x, this.point2.y,  this.point2.z,  				//pt2 location
- //    this.color.r,  this.color.g,  this.color.b, this.color.a	//pt2 color
-	// 	]);
-
-	// this.n = 2;
-	
-	// //create buffer object
-	// this.vertexColorBuffer = gl.createBuffer();
-	// if(!this.vertexColorBuffer){
-	// 	console.log('Failed to create buffer object');
-	// 	return -1;
-	// }
-	
-	// //Bind the buffer object to the target
-	// gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexColorBuffer);
-	
-	// //Write data into the buffer object
-	// gl.bufferData(gl.ARRAY_BUFFER, this.verticesColors, gl.STATIC_DRAW);
-	
-	// // Unbind the buffer object
-	// gl.bindBuffer(gl.ARRAY_BUFFER, null);
-	
-	// this.FSIZE = this.verticesColors.BYTES_PER_ELEMENT;
-	
 }
 
 Line.prototype.setColorByObject = function(colorIn){
@@ -132,7 +79,4 @@ Line.prototype.setColorByObject = function(colorIn){
 	//this.point2.setColorByObject(colorIn);	
 }
 
-// Line.prototype.draw = function(gl, renderer){
-// 	renderer.drawLine(gl, this.vertexColorBuffer, 3, 4, this.FSIZE, this.n)
-						
-// }
+
