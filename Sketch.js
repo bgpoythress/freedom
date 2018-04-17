@@ -1,6 +1,7 @@
 //Sketch.js
 function Sketch(idIn, planeIn){
 	this.type = "Sketch";
+	this.hasRenderList = true;
 	this.id = idIn;
 
 	//this is the plane that the sketch sits on

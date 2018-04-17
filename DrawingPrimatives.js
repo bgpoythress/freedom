@@ -28,6 +28,7 @@ var WHITE = new Color(1.0, 1.0, 1.0, 1.0);
 //Point class
 function Point(idIn, xIn, yIn, zIn, colorIn){
 	this.type = "Point";
+	this.hasRenderList = false;
 	this.id = idIn;
 	this.x = xIn;
 	this.y = yIn;
@@ -79,6 +80,7 @@ Point.prototype.setColorByObject = function(colorIn){
 //Line class
 function Line(idIn, point1In, point2In, colorIn){
 	this.type = "Line";
+	this.hasRenderList = false;
 	this.id = idIn;
 	this.point1 = point1In;
 	this.point2 = point2In;

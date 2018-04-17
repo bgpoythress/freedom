@@ -83,52 +83,32 @@ Renderer.prototype.init = function(gl){
 
 //------------------------------------------------------------------------------------
 //This set of functions is the meat an potatoes of the renderer.  It  searches through
-//the data structures of the a given state and decides how to render each item.
-Renderer.prototype.render = function(gl, state){
-	var stateRenderListLength = state.renderList.length;
-	for (var i=0; i<stateRenderListLength; i++){
-		if (state.renderList[i].type = "Scene"){
-			this.renderScene(state.renderList[i]);
-		} else if (state.renderList[i].type = "Portal"){
-			this.renderPortal(state.renderList[i]);
-		}else if (state.renderList[i].type = "Sketch"){
-			this.renderSketch(state.renderList[i]);
-		}else if (state.renderList[i].type = "Plane"){
-			this.renderPlane(state.renderList[i]);
-		}else if (state.renderList[i].type = "Line"){
-			this.renderLine(state.renderList[i]);
-		}else if (state.renderList[i].type = "Point"){
-			this.renderPoint(state.renderList[i]);
-		}else{
+//the data structures of the given state and recursively decides how to render each item.
 
+Renderer.prototype.render = function(gl, thingToRender){
+	//First I test the type of thing that is going to be rendered.
+	//If the thing has a renderlist it sends each thing back to this function.
+	if (thingToRender.hasRenderList){
+		var renderListLength = thingToRender.renderList.length;
+		for (var i=0; i<renderListLength; i++){
+			this.render(gl, thingToRender.renderList[i]);
 		}
-}
+	} else {
+		switch(thingToRender.type){
+			case "Plane":
+				this.renderPlane(gl, thingToRender);
+				break;
 
-Renderer.prototype.renderScene = function(gl, scene){
-	var sceneRenderListLength = scene.renderList.length;
-	for (var i=0; i<sceneRenderListLength; i++){
-		if (scene.renderList[i].type = "Portal"){
-			this.renderPortal(scene.renderList[i]);
-		}else if (scene.renderList[i].type = "Sketch"){
-			this.renderSketch(scene.renderList[i]);
-		}else if (scene.renderList[i].type = "Plane"){
-			this.renderPlane(scene.renderList[i]);
-		}else if (scene.renderList[i].type = "Line"){
-			this.renderLine(scene.renderList[i]);
-		}else if (scene.renderList[i].type = "Point"){
-			this.renderPoint(scene.renderList[i]);
-		}else{
+			case "Line":
+				this.renderLine(gl, thingToRender);
+				break;
 
+			case "Point":
+				this.renderPoint(gl, thingToRender);
+				break;
 		}
+
 	}
-}
-
-Renderer.prototype.renderPortal = function(gl, portal){
-	
-}
-
-Renderer.prototype.renderSketch = function(gl, sketch){
-	
 }
 
 Renderer.prototype.renderPlane = function(gl, plane){

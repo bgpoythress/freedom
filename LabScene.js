@@ -3,6 +3,7 @@
 function LabScene(){
 
 	this.type = "Scene";
+	this.hasRenderList = true;
 	this.IdGen = new IdGenerator();
 
 	//to test the rendering system, the lab scene will contain a single sketch

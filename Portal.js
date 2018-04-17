@@ -2,6 +2,7 @@
 
 function Portal(){
 	this.type = "Portal";
+	this.hasRenderList = true;
 	this.renderList = [];
 	//this.init(gl);
 
