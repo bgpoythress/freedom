@@ -2,7 +2,7 @@
 
 function ModelState(){
 	this.type = "State";
-	this.hasRenderList = true;
+	this.hasRenderList = true
 	
 	//initialize the event handler.  This may move to the upper-most file
 	this.eventHandler = new EventHandler();

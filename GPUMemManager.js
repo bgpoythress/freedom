@@ -21,7 +21,7 @@ function GPUMemoryManager(gl, initialSizeInBytes){
 
 	//create an empty buffer
 	this.graphicsBuffer = gl.createBuffer();
-	if(!this.vertexColorBuffer){
+	if(!this.graphicsBuffer){
 		console.log('Failed to create buffer object');
 		return -1;
 	}
@@ -39,23 +39,29 @@ function GPUMemoryManager(gl, initialSizeInBytes){
 GPUMemoryManager.prototype.allocate = function(vertexArray){
 	//determine the size of the vertexArray in bytes
 	var vertArraySize = vertexArray.length * vertexArray.BYTES_PER_ELEMENT;
-	var locationOfNewMemory = -1;
+	
+	//set the index of the new memory to an error value.
+	//this will only be corrected if memory is successfully allocated
+	var indexOfNewMemory = -1;
 
 	//find a empty block of memory
 	for (var i=0; i<this.blockList.length; i++){
 		if (!this.blockList[i].used && this.blockList[i].size>=vertArraySize){
+
+			//store the original size of the available block
+			var sizeOfOldBlock = this.blockList[i].size;
 			
 			//if the required amount of memory is less than what is available
 			//in the block, then break up the block into two
 			if(this.blockList[i].size != vertArraySize){
 				
-				//create the new used block using the old location of the existing block
-				usedBlock = new MemoryBlock(this.blockList[i].location, vertArraySize);
-				usedBlock.used = true;
+				//use the current unused block as the new block
+				this.blockList[i].size = vertArraySize;
+				this.blockList[i].used = true;
 
 				//calculate the new location and size of the empty block
 				freeLocation = this.blockList[i].location + vertArraySize;
-				freeSize = this.blockList[i].size - vertArraySize;
+				freeSize = sizeOfOldBlock - vertArraySize;
 
 				//create the empty block
 				freeBlock = new MemoryBlock(freeLocation, freeSize);
@@ -74,18 +80,23 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 				this.blockList[i].used = true;
 			}
 
-			locationOfNewMemory = this.blockList[i].location;
+			//each drawable object will use index number instead of address
+			//to access it's memory block so they do not have to iterate through
+			//the blockList to find it
+			indexOfNewMemory = i; 
 
 			//once memory has been allocated we can break out of the for loop
 			break;
 
 
-		} else {
+		} else if(i == this.blockList.length - 1) {
+			//if you dont break out of the foor loop before getting here, it means
+			//that there was not a block of memory available
 			console.log("Out of memory in the GPUMemoryManager.  Need to expand memory");
 		}
 	}
 
-	return locationOfNewMemory; //if a negative number is returned there is a problem
+	return indexOfNewMemory; //if a negative number is returned there is a problem
 }
 
 
