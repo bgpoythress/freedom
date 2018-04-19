@@ -1,10 +1,12 @@
 //LabScene.js
 
-function LabScene(){
+function LabScene(dirtyListCallback){
 
 	this.type = "Scene";
 	this.hasRenderList = true;
 	this.IdGen = new IdGenerator();
+	dirtyListCallback(12);
+
 
 	//to test the rendering system, the lab scene will contain a single sketch
 	//with 4 points that make up a plane.  This plane will serve as the 

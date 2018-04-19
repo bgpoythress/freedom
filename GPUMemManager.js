@@ -4,13 +4,14 @@
 //is good enough for development.  once the program is working pretty well more 
 //attention should be given to this because the performance effects are significant.
 
-function GPUMemoryManager(gl, initialSizeInBytes){
+function GPUMemoryManager(gl){
 	//set the current buffer size in bytes
-	this.bufferSizeInBytes = initialSizeInBytes;
+	this.INITIAL_BUFFER_SIZE = 1024;
+	this.BUFFER_GROW_SIZE = 1024;
 
 	//the first block of memory takes up the entire buffer and is empty
 	//starting at address 0.
-	initialBlock = new MemoryBlock(0, this.bufferSizeInBytes);
+	initialBlock = new MemoryBlock(0, this.INITIAL_BUFFER_SIZE);
 	initialBlock.used = false;
 
 	//list of all consumed memory blocks
@@ -30,7 +31,7 @@ function GPUMemoryManager(gl, initialSizeInBytes){
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.graphicsBuffer);
 
 	//Expand the buffer to its inital size in bytes
-	gl.bufferData(gl.ARRAY_BUFFER, this.bufferSizeInBytes, gl.DYNAMIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, this.INITIAL_BUFFER_SIZE, gl.DYNAMIC_DRAW);
 
 	// Unbind the buffer object
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);

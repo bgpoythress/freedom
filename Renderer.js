@@ -71,7 +71,7 @@ function Renderer(gl){
 	}
 
 	//create the graphics memory manager object
-	this.memory = new GPUMemManager(gl, 1024);
+	this.memory = new GPUMemManager(gl);
 
 	
 
@@ -85,13 +85,19 @@ function Renderer(gl){
 //This set of functions is the meat an potatoes of the renderer.  It  searches through
 //the data structures of the given state and recursively decides how to render each item.
 
-Renderer.prototype.render = function(gl, thingToRender){
+Renderer.prototype.render = function(gl, state){
+	for (var i = 0; i<state.dirtyList.length; i++){
+		this.renderThing(gl, state.dirtyList[i]);
+	}
+};
+
+Renderer.prototype.renderThing = function(gl, thingToRender){
 	//First I test the type of thing that is going to be rendered.
 	//If the thing has a renderlist it sends each thing back to this function.
 	if (thingToRender.hasRenderList){
 		var renderListLength = thingToRender.renderList.length;
 		for (var i=0; i<renderListLength; i++){
-			this.render(gl, thingToRender.renderList[i]);
+			this.renderThing(gl, thingToRender.renderList[i]);
 		}
 	} else {
 		switch(thingToRender.type){
@@ -107,7 +113,6 @@ Renderer.prototype.render = function(gl, thingToRender){
 				this.renderPoint(gl, thingToRender);
 				break;
 		}
-
 	}
 };
 

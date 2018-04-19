@@ -16,38 +16,38 @@ function main(){
 		return;
 	}
 	//get the rendering context
-	var gl = getWebGLContext(canvas);
-	if(!gl){
-		console.log('Failed to get the rendering context for WebGL');
-		return;
-	}
+	// var gl = getWebGLContext(canvas);
+	// if(!gl){
+	// 	console.log('Failed to get the rendering context for WebGL');
+	// 	return;
+	// }
 
 
 	//create the renderer instance
-	var renderer = new Renderer(gl);
+	//var renderer = new Renderer(gl);
 	
 	
 	//load state
 	var currentState = new ModelState();
-	
-	
-	//holds the time of last view update
-	var lastUpdate = Date.now();
-
-
-	//draw state
-	renderer.draw(currentState);
-
-	//define the game Loop
-	var gameLoop = function(){
-			currentState.update(lastUpdate);
-			renderer.render(currentState);
-			requestAnimationFrame(gameLoop);
-	};
-
-	//starting the main game loop
-	gameLoop();
 }	
+	
+// 	//holds the time of last view update
+// 	var lastUpdate = Date.now();
+
+
+// 	//draw state
+// 	renderer.draw(currentState);
+
+// 	//define the game Loop
+// 	var gameLoop = function(){
+// 			currentState.update(lastUpdate);
+// 			renderer.render(currentState);
+// 			requestAnimationFrame(gameLoop);
+// 	};
+
+// 	//starting the main game loop
+// 	gameLoop();
+// }	
 	
 ////////////////////////////////////////////////////////////////////////////////////
 //a reference game loop from google

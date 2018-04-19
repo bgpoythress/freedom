@@ -1,6 +1,6 @@
 //Portal.js
 
-function Portal(){
+function Portal(dirtyListCallback){
 	this.type = "Portal";
 	this.hasRenderList = true;
 	this.renderList = [];
