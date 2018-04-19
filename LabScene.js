@@ -37,4 +37,4 @@ function LabScene(){
 
 LabScene.prototype.update = function(lastUpdate){
 
-}
+};

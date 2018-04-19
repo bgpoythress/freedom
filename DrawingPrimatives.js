@@ -34,7 +34,7 @@ function Point(idIn, xIn, yIn, zIn, colorIn){
 	this.x = xIn;
 	this.y = yIn;
 	this.z = zIn;
-	this.color = new Color()
+	this.color = new Color();
 	this.color.r = colorIn.r;
 	this.color.g = colorIn.g;
 	this.color.b = colorIn.b;
@@ -46,7 +46,7 @@ Point.prototype.setColorByObject = function(colorIn){
 	this.color.g = colorIn.g;
 	this.color.b = colorIn.b;
 	this.color.a = colorIn.a;	
-}
+};
 
 // Point.prototype.draw = function(gl, renderer){
 // 	renderer.drawPoint(gl, this.vertexColorBuffer, 3, 4, this.FSIZE, this.n)
@@ -63,7 +63,7 @@ function Line(idIn, point1In, point2In, colorIn){
 	this.point2 = point2In;
 	//this.point1.setColorByObject(colorIn); may not be necessary.  
 	//this.point2.setColorByObject(colorIn); may not be necessary. 
-	this.color = new Color()
+	this.color = new Color();
 	this.color.r = colorIn.r;
 	this.color.g = colorIn.g;
 	this.color.b = colorIn.b;
@@ -77,6 +77,6 @@ Line.prototype.setColorByObject = function(colorIn){
 	this.color.a = colorIn.a;
 	//this.point1.setColorByObject(colorIn);
 	//this.point2.setColorByObject(colorIn);	
-}
+};
 
 

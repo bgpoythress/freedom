@@ -17,4 +17,4 @@ function Sketch(idIn, planeIn){
 Sketch.prototype.addPoint = function(xIn, yIn, zIn, colorIn){
 	point = new Point(this.idGen.getId, xIn, yIn, zIn, colorIn);
 	this.renderList.push(point);
-}
+};

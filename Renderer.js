@@ -109,23 +109,23 @@ Renderer.prototype.render = function(gl, thingToRender){
 		}
 
 	}
-}
+};
 
 Renderer.prototype.renderPlane = function(gl, plane){
 	//if the plane has changed or never been rendererd before
 	//then build the object and load it into memory
 	if(plane.isDirty || plane.graphicsMemoryAddress == null){
 		this.memory.update(plane);
-	
-}
+	}
+};
 
 Renderer.prototype.renderLine = function(gl, line){
 	
-}
+};
 
 Renderer.prototype.renderPoint = function(gl, point){
 	
-}
+};
 
 
 
@@ -149,7 +149,7 @@ Renderer.prototype.drawLine = function(gl, vertexColorBuffer, vertSize, colorSiz
 	
 	gl.drawArrays(gl.LINES, 0, n);
 	
-}
+};
 
 Renderer.prototype.drawPoint = function(gl, vertexColorBuffer, vertSize, colorSize, FSIZE, n){
 	//Bind the buffer object to the target
@@ -167,7 +167,7 @@ Renderer.prototype.drawPoint = function(gl, vertexColorBuffer, vertSize, colorSi
 	
 	
 	gl.drawArrays(gl.POINTS, 0, n);
-}
+};
 
 
 

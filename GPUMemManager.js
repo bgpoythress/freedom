@@ -97,7 +97,7 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 	}
 
 	return indexOfNewMemory; //if a negative number is returned there is a problem
-}
+};
 
 
 GPUMemoryManager.prototype.update = function(object){
@@ -108,7 +108,7 @@ GPUMemoryManager.prototype.update = function(object){
 
 	// 	}
 	//}
-}
+};
 
 
 
