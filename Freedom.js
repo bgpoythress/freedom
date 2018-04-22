@@ -41,7 +41,7 @@ function main(){
 	//define the game Loop
 	var gameLoop = function(){
 			currentState.update(lastUpdate);
-			renderer.render(currentState);
+			renderer.render(gl, currentState);
 			requestAnimationFrame(gameLoop);
 	};
 

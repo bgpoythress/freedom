@@ -1,10 +1,11 @@
 //Plane.js
 
-function Plane(idIn, xIn, yIn, zIn, normalXIn, normalYIn, normalZIn, upXIn, upYIn, upZIn){
+function Plane(idIn, parentIdIn, xIn, yIn, zIn, normalXIn, normalYIn, normalZIn, upXIn, upYIn, upZIn){
 	this.type = "Plane";
 	this.hasRenderList = false;
 	this.graphicsMemoryAddress = null;
 	this.id = idIn;
+	this.parent = parentIdIn;
 
 	//location of the plane's center point
 	this.x = xIn;

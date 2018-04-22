@@ -1,9 +1,12 @@
 //Portal.js
 
-function Portal(dirtyListCallback){
+function Portal(idIn, parentIn, dirtyListCallback){
 	this.type = "Portal";
+	this.id = idIn;
+	this.parent = parentIn;
 	this.hasRenderList = true;
 	this.renderList = [];
+	this.dirtyList = [];
 	//this.init(gl);
 
 }

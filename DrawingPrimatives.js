@@ -26,11 +26,12 @@ var WHITE = new Color(1.0, 1.0, 1.0, 1.0);
 
 //------------------------------------------------------------------------------------
 //Point class
-function Point(idIn, xIn, yIn, zIn, colorIn){
+function Point(idIn, parentIn, xIn, yIn, zIn, colorIn){
 	this.type = "Point";
 	this.hasRenderList = false;
 	this.graphicsMemoryAddress = null;
 	this.id = idIn;
+	this.parent = parentIn;
 	this.x = xIn;
 	this.y = yIn;
 	this.z = zIn;
@@ -54,11 +55,12 @@ Point.prototype.setColorByObject = function(colorIn){
 
 //------------------------------------------------------------------------------------
 //Line class
-function Line(idIn, point1In, point2In, colorIn){
+function Line(idIn, parentIn, point1In, point2In, colorIn){
 	this.type = "Line";
 	this.hasRenderList = false;
 	this.graphicsMemoryAddress = null;
 	this.id = idIn;
+	this.parent =parentIn;
 	this.point1 = point1In;
 	this.point2 = point2In;
 	//this.point1.setColorByObject(colorIn); may not be necessary.  

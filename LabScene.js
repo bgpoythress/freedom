@@ -1,22 +1,36 @@
 //LabScene.js
 
-function LabScene(dirtyListCallback){
+function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 
 	this.type = "Scene";
+	this.id = idIn;
+	this.parent = parentIdIn;
 	this.hasRenderList = true;
 	this.IdGen = new IdGenerator();
-	dirtyListCallback(12);
+
+	this.renderList = [];
+	this.dirtyList = [];
+	
+	//assign the callback function to the scene object
+	this.tellParentThatImDirty = parentDirtyListCallback;
 
 
 	//to test the rendering system, the lab scene will contain a single sketch
 	//with 4 points that make up a plane.  This plane will serve as the 
 	//floor for future development.
 
-	floorPlane = new Plane(this.IdGen.getId(), 0.0, 0.0, 0.0, 
-		0.0, 1.0, 0.0, 0.0, 0.0, -1.0);
+	//need to work out how to have "mates" between the plane and the 
+	//sketch.  That way, if the plane changes, the sketch knows how
+	//and when to update itself.  while working on the graphics stuff,
+	//I will just leave the plane static, but I need to work this out
+	//down the road.
+	floorPlane = new Plane(this.IdGen.getId(), 
+						this.id, this.dirtyListCallback.bind(this), 
+						0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0);
 
-	sketch1 = new sketch(this.IdGen.getId(), floorPlane);
-
+	sketch1 = new sketch(this.IdGen.getId(), this.id,
+						this.dirtyListCallback.bind(this),
+						floorPlane);
 
 	//define the size of the scene in mm
 	this.width = 10000.0;
@@ -36,6 +50,12 @@ function LabScene(dirtyListCallback){
 
 
 // }
+
+//Every parent object must have a callback function that allows children
+//to communitate to it "up the chain".
+LabScene.prototype.dirtyListCallback = function(dirtyObject){
+	this.dirtyList.push(dirtyObject);
+};
 
 LabScene.prototype.update = function(lastUpdate){
 
