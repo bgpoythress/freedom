@@ -1,9 +1,10 @@
 //Sketch.js
-function Sketch(idIn, parentIn, planeIn){
+function Sketch(idIn, parentIn, parentDirtyListCallback, planeIn){
 	this.type = "Sketch";
 	this.hasRenderList = true;
 	this.id = idIn;
 	this.parent = parentIn;
+	this.passDirtyToParent = parentDirtyListCallback;
 
 	//this is the plane that the sketch sits on
 	this.plane = planeIn;
@@ -22,5 +23,5 @@ Sketch.prototype.addPoint = function(xIn, yIn, zIn, colorIn){
 };
 
 Sketch.prototype.dirtyListCallback = function(dirtyObject){
-	this.dirtyList.push(dirtyObject);
+	this.passDirtyToParent(dirtyObject);
 };

@@ -73,8 +73,6 @@ function Renderer(gl){
 	//create the graphics memory manager object
 	this.memory = new GPUMemManager(gl);
 
-	
-
 
 	
 }	
@@ -86,17 +84,27 @@ function Renderer(gl){
 //the data structures of the given state and recursively decides how to render each item.
 
 Renderer.prototype.render = function(gl, state){
+
+	//first all dirty objects have to be updated
 	for (var i = 0; i<state.dirtyList.length; i++){
-		this.renderThing(gl, state.dirtyList[i]);
-	}
+		this.memory.update(dirtyList[i]);
+		}
+
+	//then clear the dirtyList.  There is a lot of online debate about the proper way
+	//to clear an array in javascript.  beware of this if there are bugs.
+	state.dirtyList.length = 0;
+
+	//then all items in the render hierachy must be rendered
+	this.renderThing(gl, state);
 };
+
+
 
 Renderer.prototype.renderThing = function(gl, thingToRender){
 	//First I test the type of thing that is going to be rendered.
 	//If the thing has a renderlist it sends each thing back to this function.
 	if (thingToRender.hasRenderList){
-		var renderListLength = thingToRender.renderList.length;
-		for (var i=0; i<renderListLength; i++){
+		for (var i=0; i<thingToRender.renderList.length; i++){
 			this.renderThing(gl, thingToRender.renderList[i]);
 		}
 	} else {

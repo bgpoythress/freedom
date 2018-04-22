@@ -12,9 +12,9 @@ function GPUMemoryManager(gl){
 	//the first block of memory takes up the entire buffer and is empty
 	//starting at address 0.
 	initialBlock = new MemoryBlock(0, this.INITIAL_BUFFER_SIZE);
-	initialBlock.used = false;
+	initialBlock.isAvailable = true;
 
-	//list of all consumed memory blocks
+	//list of all memory blocks
 	this.blockList = [];
 
 	//add the big empty block to the blockList
@@ -47,7 +47,7 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 
 	//find a empty block of memory
 	for (var i=0; i<this.blockList.length; i++){
-		if (!this.blockList[i].used && this.blockList[i].size>=vertArraySize){
+		if (this.blockList[i].isAvailable && this.blockList[i].size>=vertArraySize){
 
 			//store the original size of the available block
 			var sizeOfOldBlock = this.blockList[i].size;
@@ -58,7 +58,7 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 				
 				//use the current unused block as the new block
 				this.blockList[i].size = vertArraySize;
-				this.blockList[i].used = true;
+				this.blockList[i].isAvailable = false;
 
 				//calculate the new location and size of the empty block
 				freeLocation = this.blockList[i].location + vertArraySize;
@@ -66,19 +66,16 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 
 				//create the empty block
 				freeBlock = new MemoryBlock(freeLocation, freeSize);
-				freeBlock.used = false;
+				freeBlock.isAvailable = true;
 
-				//replace the original block with the new used block and push
-				//the empty block to the end of the stack
-				this.blockList[i] = usedBlock;
+				//Push the empty block to the end of the stack
 				this.blockList.push(freeBlock);
-
 
 			} else{
 
 				//if the new and old block are the same size, creation of new
 				//memory blocks is not necessary
-				this.blockList[i].used = true;
+				this.blockList[i].isAvailable = false;
 			}
 
 			//each drawable object will use index number instead of address
@@ -102,20 +99,20 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 
 
 GPUMemoryManager.prototype.update = function(object){
-	// if(object.isDirty || object.graphicsMemoryAddress == null){
-		
-	// 	//release the current memory block
-	// 	for (var i; i<this.blockList.length; i++){
-
-	// 	}
-	//}
+	//first we must figure out is memory is already allocated or the object is new
+	if(object.graphicsMemoryAddress){
+		//because the object already has a memory address/index, we are going to release it.
+		//each time we redraw an existing object, we free its memory and rebuffer it.
+		//this helps with memory fragmentation.
+		this.blockList[object.graphicsMemoryAddress].isAvailable = true;
+		object.graphicsMemoryAddress = null;
+	}
 };
-
 
 
 function MemoryBlock(locationIn, sizeIn){
 	//is the memory block used or available.  Default is used.
-	this.used = true;
+	this.isAvailable = false;
 
 	//location pointer of the memory block
 	this.location = locationIn;
