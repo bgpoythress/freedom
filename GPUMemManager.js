@@ -4,7 +4,7 @@
 //is good enough for development.  once the program is working pretty well more 
 //attention should be given to this because the performance effects are significant.
 
-function GPUMemoryManager(gl){
+function GPUMemManager(gl){
 	//set the current buffer size in bytes
 	this.INITIAL_BUFFER_SIZE = 1024;
 	this.BUFFER_GROW_SIZE = 1024;
@@ -37,7 +37,7 @@ function GPUMemoryManager(gl){
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 }
 
-GPUMemoryManager.prototype.allocate = function(vertexArray){
+GPUMemManager.prototype.allocate = function(gl, vertexArray){
 	//determine the size of the vertexArray in bytes
 	var vertArraySize = vertexArray.length * vertexArray.BYTES_PER_ELEMENT;
 	
@@ -83,6 +83,11 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 			//the blockList to find it
 			indexOfNewMemory = i; 
 
+			//allocate the memory in the GPU
+			gl.bindBuffer(gl.ARRAY_BUFFER, this.graphicsBuffer);
+			gl.bufferSubData(gl.ARRAY_BUFFER, this.blockList[i].location, vertexArray);
+			gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
 			//once memory has been allocated we can break out of the for loop
 			break;
 
@@ -98,15 +103,38 @@ GPUMemoryManager.prototype.allocate = function(vertexArray){
 };
 
 
-GPUMemoryManager.prototype.update = function(object){
+GPUMemManager.prototype.update = function(gl, object, vertexArray){
+
 	//first we must figure out is memory is already allocated or the object is new
 	if(object.graphicsMemoryAddress){
-		//because the object already has a memory address/index, we are going to release it.
-		//each time we redraw an existing object, we free its memory and rebuffer it.
+		//because the object already has a memory address/index, i am going to release it.
+		//each time I modify the vertices an existing object, I free its memory and rebuffer it.
 		//this helps with memory fragmentation.
 		this.blockList[object.graphicsMemoryAddress].isAvailable = true;
 		object.graphicsMemoryAddress = null;
 	}
+
+	//then we figure out if the object is requesting deletion.  If so we just return without
+	//allocating any more.
+	if(object.killMe){
+		return;
+	} else {
+		object.graphicsMemoryAddress = this.allocate(gl, vertexArray);
+	}
+
+	if(debugging){
+		console.log("Memory Information:");
+		for (var i=0; i<this.blockList.length; i++){
+			console.log("MemoryBlock Index:");
+			console.log(i);
+			console.log("MemoryBlock Size:");
+			console.log(this.blockList[i].size);
+			console.log("MemoryBlock Location:");
+			console.log(this.blockList[i].location);
+			console.log("-----------------------------");
+		}
+	}
+
 };
 
 

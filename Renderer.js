@@ -74,13 +74,13 @@ function Renderer(gl){
 	this.viewMatrix = new Matrix4();
 	this.projMatrix = new Matrix4();
 
-	modelMatrix.setIdentity();
-	viewMatrix.setLookAt(0, 10000, 0, 0, 0, 0, 0, 0, -1);
-	projMatrix.setPerspective(30, 1, 1, 20000);
+	this.modelMatrix.setIdentity();
+	this.viewMatrix.setLookAt(0, 10, 0, 0, 0, 0, 0, 0, -1);
+	this.projMatrix.setPerspective(70, 1, 1, 20);
 
-	gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
-	gl.uniformMatrix4fv(u_ViewMatrix, false, modelMatrix.elements);
-	gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements);
+	gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
+	gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
+	gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
 
 	//create the graphics memory manager object
 	this.memory = new GPUMemManager(gl);
@@ -98,9 +98,10 @@ Renderer.prototype.render = function(gl, state){
 	//first all dirty objects have to be updated
 	for (var i = 0; i<state.dirtyList.length; i++){
 		var verticesColors = new Float32Array([
-			dirtyList[i].x, dirtyList[i].y, dirtyList[i].z,
-			dirtyList[i].r, dirtyList[i].g, dirtyList[i].b, dirtyList[i].a]);
-		this.memory.update(dirtyList[i], verticesColors);
+			state.dirtyList[i].x, state.dirtyList[i].y, state.dirtyList[i].z,
+			state.dirtyList[i].r, state.dirtyList[i].g, state.dirtyList[i].b, 
+			state.dirtyList[i].a]);
+		this.memory.update(gl, state.dirtyList[i], verticesColors);
 		}
 
 	//then clear the dirtyList.  There is a lot of online debate about the proper way
@@ -117,7 +118,7 @@ Renderer.prototype.renderThing = function(gl, thingToRender){
 	//First I test the type of thing that is going to be rendered.
 	//If the thing has a renderlist it sends each thing back to this function.
 	
-	gl.clear(gl_COLOR_BUFFER_BIT);
+	gl.clear(gl.COLOR_BUFFER_BIT);
 
 	if (thingToRender.hasRenderList){
 		for (var i=0; i<thingToRender.renderList.length; i++){
@@ -149,13 +150,17 @@ Renderer.prototype.renderLine = function(gl, line){
 };
 
 Renderer.prototype.renderPoint = function(gl, point){
+
+	var memoryLocation = this.memory.blockList[point.graphicsMemoryAddress].location;
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.memory.graphicsBuffer);
-	gl.vertexAttribPointer(this.a_Position, 3, gl.FLOAT, false, 28, 0);
+	gl.vertexAttribPointer(this.a_Position, 3, gl.FLOAT, false, 28, memoryLocation);
 	gl.enableVertexAttribArray(this.a_Position);
-	gl.vertexAttribPointer(this.a_Color, 4, gl.FLOAT, false, 28, 12);
-	gl.eneableVertixAttribArray(this.a_Color);
-	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+	gl.vertexAttribPointer(this.a_Color, 4, gl.FLOAT, false, 28, memoryLocation + 12);
+	gl.enableVertexAttribArray(this.a_Color);
+	
 	gl.drawArrays(gl.POINTS, 0, 1);
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 	
 };
 

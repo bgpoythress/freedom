@@ -1,15 +1,23 @@
 //Portal.js
 
-function Portal(idIn, parentIn, dirtyListCallback){
+function Portal(idIn, parentIn, parentDirtyListCallback){
 	this.type = "Portal";
 	this.id = idIn;
 	this.parent = parentIn;
+
+	//assign the callback function to the scene object
+	this.tellParentThatImDirty = parentDirtyListCallback;
+
 	this.hasRenderList = true;
 	this.renderList = [];
 	this.dirtyList = [];
 	//this.init(gl);
 
 }
+
+Portal.prototype.update = function(){
+
+};
 
 // Portal.prototype.init= function(gl){
 // 	// var point1 = new Point(gl, 0.2, 0.2, 0.0, RED);

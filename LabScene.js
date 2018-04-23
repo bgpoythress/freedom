@@ -6,13 +6,13 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	this.id = idIn;
 	this.parent = parentIdIn;
 	this.hasRenderList = true;
-	this.IdGen = new IdGenerator();
+	this.idGen = new IdGenerator();
 
 	this.renderList = [];
 	this.dirtyList = [];
 	
 	//assign the callback function to the scene object
-	this.tellParentThatImDirty = parentDirtyListCallback;
+	this.passDirtyToParent = parentDirtyListCallback;
 
 
 	//to test the rendering system, the lab scene will contain a single sketch
@@ -24,11 +24,11 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	//and when to update itself.  while working on the graphics stuff,
 	//I will just leave the plane static, but I need to work this out
 	//down the road.
-	floorPlane = new Plane(this.IdGen.getId(), 
+	floorPlane = new Plane(this.idGen.getId(), 
 						this.id, this.dirtyListCallback.bind(this), 
 						0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0);
 
-	sketch1 = new sketch(this.IdGen.getId(), this.id,
+	sketch1 = new Sketch(this.idGen.getId(), this.id,
 						this.dirtyListCallback.bind(this),
 						floorPlane);
 
@@ -36,10 +36,15 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	this.width = 10000.0;
 	this.length = 10000.0;
 
-	sketch1.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
-	sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
-	sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
-	sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
+
+
+	// sketch1.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
+	// sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
+	// sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
+	// sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
+
+	sketch1.addPoint(0.0, 0.0, 0.0, BLUE);
+	
 
 	this.renderList = [sketch1];
 
@@ -54,7 +59,7 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 //Every parent object must have a callback function that allows children
 //to communitate to it "up the chain".
 LabScene.prototype.dirtyListCallback = function(dirtyObject){
-	this.dirtyList.push(dirtyObject);
+	this.passDirtyToParent(dirtyObject);
 };
 
 LabScene.prototype.update = function(lastUpdate){

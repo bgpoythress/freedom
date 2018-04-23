@@ -3,7 +3,7 @@
 function ModelState(){
 	this.type = "State";
 	this.hasRenderList = true;
-	this.IdGen = new IdGenerator();
+	this.idGen = new IdGenerator();
 	//an id of 0 inticates the root model object
 	this.id = 0;  
 
@@ -13,7 +13,11 @@ function ModelState(){
 	//Whatever you place in the dirtyList will be re-presented to the GPU because it 
 	//is new or it has changed...or it needs to be deleted.
 	//whatever is in the renderList will be renderered.
+	
+	//i am going to try a single dirtyList for everything
 	this.dirtyList = [];
+
+	//...and a renderList for each parent
 	this.renderList = [];
 	
 	//initialize the event handler.  This may move to the upper-most file
@@ -26,13 +30,13 @@ function ModelState(){
 	
 	//initialize one portal.  Multiple portals will be supported in the final build.
 	//may need a portal list
-	this.portal = new Portal(this.idGen.getId(), this.id, this.dirtyListCallback.bind(this));  
+	this.portal = new Portal(this.idGen.getId(), 
+								this.id, 
+								this.dirtyListCallback.bind(this));  
 
 	//each object that is the parent to renderable objects must have a renderList
 	this.renderList.push(this.scene);
 	this.renderList.push(this.portal);
-	this.dirtyList.push(this.scene);
-	this.dirtyList.push(this.portal);
 	
 }
 

@@ -36,11 +36,7 @@ function Point(idIn, parentIn, parentDirtyListCallback, xIn, yIn, zIn, colorIn){
 	this.x = xIn;
 	this.y = yIn;
 	this.z = zIn;
-	this.color = new Color();
-	this.color.r = colorIn.r;
-	this.color.g = colorIn.g;
-	this.color.b = colorIn.b;
-	this.color.a = colorIn.a;
+	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
 	this.killMe = false;
 	
 	//declare itself dirty after creation
@@ -71,11 +67,7 @@ function Line(idIn, parentIn, parentDirtyListCallback, point1In, point2In, color
 	this.point2 = point2In;
 	//this.point1.setColorByObject(colorIn); may not be necessary.  
 	//this.point2.setColorByObject(colorIn); may not be necessary. 
-	this.color = new Color();
-	this.color.r = colorIn.r;
-	this.color.g = colorIn.g;
-	this.color.b = colorIn.b;
-	this.color.a = colorIn.a;
+	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
 	this.killMe = false;
 
 	//declare itself dirty after creation

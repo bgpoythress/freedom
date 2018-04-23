@@ -18,7 +18,8 @@ function Sketch(idIn, parentIn, parentDirtyListCallback, planeIn){
 }
 
 Sketch.prototype.addPoint = function(xIn, yIn, zIn, colorIn){
-	point = new Point(this.idGen.getId, this.id, xIn, yIn, zIn, colorIn);
+	point = new Point(this.idGen.getId, this.id, this.dirtyListCallback.bind(this),
+					 xIn, yIn, zIn, colorIn);
 	this.renderList.push(point);
 };
 

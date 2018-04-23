@@ -6,7 +6,7 @@
 // If Python version is 2.X
 // python -m SimpleHTTPServer
 
-
+debugging = true;
 
 function main(){
 	//retrieve the canvas from the html file
@@ -29,14 +29,13 @@ function main(){
 	
 	//load state
 	var currentState = new ModelState();
-	
+
+	//There will probably be a function call somewhere around here that loads
+	//existing saved data if there is any.
 	
 	//holds the time of last view update
 	var lastUpdate = Date.now();
 
-
-	//draw state
-	renderer.draw(currentState);
 
 	//define the game Loop
 	var gameLoop = function(){
