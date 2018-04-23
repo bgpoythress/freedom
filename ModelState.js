@@ -12,7 +12,7 @@ function ModelState(){
 	//and the "view". The model and the renderer both have access to it.   
 	//Whatever you place in the dirtyList will be re-presented to the GPU because it 
 	//is new or it has changed...or it needs to be deleted.
-	//whatever is in the renderList will be renderered.
+	//whatever is in the renderList will be renderered. 
 	
 	//i am going to try a single dirtyList for everything
 	this.dirtyList = [];
