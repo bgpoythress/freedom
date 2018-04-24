@@ -42,13 +42,13 @@ function Renderer(gl){
 	this.a_Position = gl.getAttribLocation(gl.program, 'a_Position');
 	if (this.a_Position<0){
 		console.log('Failed to get location of a_Position');
-		return;
+		return -1;
 	}
 	
 	this.a_Color = gl.getAttribLocation(gl.program, 'a_Color');
 	if (this.a_Color<0){
 		console.log('Failed to get location of a_Color');
-		return;
+		return -1;
 	}
 
 	// //get the locations of the uniform variables
@@ -109,6 +109,8 @@ Renderer.prototype.render = function(gl, state){
 	//to clear an array in javascript.  beware of this if there are bugs.
 	state.dirtyList.length = 0;
 
+	gl.clear(gl.COLOR_BUFFER_BIT);
+
 	//then all items in the render hierachy must be rendered
 	this.renderThing(gl, state);
 };
@@ -119,7 +121,8 @@ Renderer.prototype.renderThing = function(gl, thingToRender){
 	//First I test the type of thing that is going to be rendered.
 	//If the thing has a renderlist it sends each thing back to this function.
 	
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	
+	
 
 	if (thingToRender.hasRenderList){
 		for (var i=0; i<thingToRender.renderList.length; i++){
@@ -152,9 +155,11 @@ Renderer.prototype.renderLine = function(gl, line){
 
 Renderer.prototype.renderPoint = function(gl, point){
 
+//using the point's memory index (graphics memory address), the actual memory
+//location in the buffer is stored in "memoryLocation"
+var memoryLocation = this.memory.blockList[point.graphicsMemoryAddress].location;
 
-	//console.log(point);
-	var memoryLocation = this.memory.blockList[point.graphicsMemoryAddress].location;
+	//draw the point
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.memory.graphicsBuffer);
 	gl.vertexAttribPointer(this.a_Position, 3, gl.FLOAT, false, 28, memoryLocation);
 	gl.enableVertexAttribArray(this.a_Position);

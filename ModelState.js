@@ -52,5 +52,4 @@ ModelState.prototype.update = function(lastUpdate){
 
 ModelState.prototype.dirtyListCallback = function(dirtyObject){
 	this.dirtyList.push(dirtyObject);
-	console.log(this.dirtyList);
 };
