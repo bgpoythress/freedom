@@ -8,13 +8,13 @@ function Renderer(gl){
 	this.VSHADER_SOURCE = 
 		'attribute vec4 a_Position;\n' +
 		'attribute vec4 a_Color;\n' +
-		'uniform mat4 u_ModelMatrix;\n'+
-		'uniform mat4 u_ViewMatrix;\n' +
-		'uniform mat4 u_ProjMatrix;\n' +
+		// 'uniform mat4 u_ModelMatrix;\n'+
+		// 'uniform mat4 u_ViewMatrix;\n' +
+		// 'uniform mat4 u_ProjMatrix;\n' +
 		'varying vec4 v_Color;\n' +
 		'void main() {\n' +
-		'	gl_Position = u_ProjMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;\n'+
-		//'	gl_Position = a_Position;\n'+
+		// '	gl_Position = u_ProjMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;\n'+
+		'	gl_Position = a_Position;\n'+
 		'	gl_PointSize = 50.0;\n'+
 		'	v_Color = a_Color;\n'+
 		'}\n';
@@ -51,36 +51,36 @@ function Renderer(gl){
 		return;
 	}
 
-	//get the locations of the uniform variables
-	this.u_ProjMatrix = gl.getUniformLocation(gl.program, "u_ProjMatrix");
-	if(this.u_ProjMatrix<0){
-		console.log('Failed to get location of u_ProjMatrix');
-		return;
-	}
+	// //get the locations of the uniform variables
+	// this.u_ProjMatrix = gl.getUniformLocation(gl.program, "u_ProjMatrix");
+	// if(this.u_ProjMatrix<0){
+	// 	console.log('Failed to get location of u_ProjMatrix');
+	// 	return;
+	// }
 
-	this.u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix");
-	if(this.u_ViewMatrix<0){
-		console.log('Failed to get location of u_ViewMatrix');
-		return;
-	}
+	// this.u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix");
+	// if(this.u_ViewMatrix<0){
+	// 	console.log('Failed to get location of u_ViewMatrix');
+	// 	return;
+	// }
 
-	this.u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
-	if(this.u_ModelMatrix<0){
-		console.log('Failed to get location of u_ModelMatrix');
-		return;
-	}
+	// this.u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
+	// if(this.u_ModelMatrix<0){
+	// 	console.log('Failed to get location of u_ModelMatrix');
+	// 	return;
+	// }
 
-	this.modelMatrix = new Matrix4();
-	this.viewMatrix = new Matrix4();
-	this.projMatrix = new Matrix4();
+	// this.modelMatrix = new Matrix4();
+	// this.viewMatrix = new Matrix4();
+	// this.projMatrix = new Matrix4();
 
-	this.modelMatrix.setIdentity();
-	this.viewMatrix.setLookAt(0, 10, 0, 0, 0, 0, 0, 0, -1);
-	this.projMatrix.setPerspective(70, 1, 1, 20);
+	// this.modelMatrix.setIdentity();
+	// this.viewMatrix.setLookAt(0, 10, 0, 0, 0, 0, 0, 0, -1);
+	// this.projMatrix.setPerspective(70, 1, 1, 20);
 
-	gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
-	gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
-	gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
+	// gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
+	// gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
+	// gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
 
 	//create the graphics memory manager object
 	this.memory = new GPUMemManager(gl);
@@ -99,8 +99,9 @@ Renderer.prototype.render = function(gl, state){
 	for (var i = 0; i<state.dirtyList.length; i++){
 		var verticesColors = new Float32Array([
 			state.dirtyList[i].x, state.dirtyList[i].y, state.dirtyList[i].z,
-			state.dirtyList[i].r, state.dirtyList[i].g, state.dirtyList[i].b, 
-			state.dirtyList[i].a]);
+			state.dirtyList[i].color.r, state.dirtyList[i].color.g, state.dirtyList[i].color.b, 
+			state.dirtyList[i].color.a]);
+			console.log(verticesColors);
 		this.memory.update(gl, state.dirtyList[i], verticesColors);
 		}
 
@@ -151,11 +152,13 @@ Renderer.prototype.renderLine = function(gl, line){
 
 Renderer.prototype.renderPoint = function(gl, point){
 
+
+	//console.log(point);
 	var memoryLocation = this.memory.blockList[point.graphicsMemoryAddress].location;
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.memory.graphicsBuffer);
 	gl.vertexAttribPointer(this.a_Position, 3, gl.FLOAT, false, 28, memoryLocation);
 	gl.enableVertexAttribArray(this.a_Position);
-	gl.vertexAttribPointer(this.a_Color, 4, gl.FLOAT, false, 28, memoryLocation + 12);
+	gl.vertexAttribPointer(this.a_Color, 4, gl.FLOAT, false, 28, memoryLocation+12);
 	gl.enableVertexAttribArray(this.a_Color);
 	
 	gl.drawArrays(gl.POINTS, 0, 1);

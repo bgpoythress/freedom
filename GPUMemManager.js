@@ -112,6 +112,8 @@ GPUMemManager.prototype.update = function(gl, object, vertexArray){
 		//this helps with memory fragmentation.
 		this.blockList[object.graphicsMemoryAddress].isAvailable = true;
 		object.graphicsMemoryAddress = null;
+	}else{
+		
 	}
 
 	//then we figure out if the object is requesting deletion.  If so we just return without
