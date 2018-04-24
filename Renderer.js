@@ -8,14 +8,14 @@ function Renderer(gl){
 	this.VSHADER_SOURCE = 
 		'attribute vec4 a_Position;\n' +
 		'attribute vec4 a_Color;\n' +
-		// 'uniform mat4 u_ModelMatrix;\n'+
-		// 'uniform mat4 u_ViewMatrix;\n' +
-		// 'uniform mat4 u_ProjMatrix;\n' +
+		'uniform mat4 u_ModelMatrix;\n'+
+		'uniform mat4 u_ViewMatrix;\n' +
+		'uniform mat4 u_ProjMatrix;\n' +
 		'varying vec4 v_Color;\n' +
 		'void main() {\n' +
-		// '	gl_Position = u_ProjMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;\n'+
-		'	gl_Position = a_Position;\n'+
-		'	gl_PointSize = 50.0;\n'+
+		'	gl_Position = u_ProjMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;\n'+
+		// '	gl_Position = a_Position;\n'+
+		'	gl_PointSize = 10.0;\n'+
 		'	v_Color = a_Color;\n'+
 		'}\n';
 	
@@ -36,7 +36,7 @@ function Renderer(gl){
 	
 	//Specify the color for clearing the canvas
 	gl.clearColor(0.0, 0.0, 0.0, 1.0);
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	//gl.clear(gl.COLOR_BUFFER_BIT);
 	
 	//get the locations of the attribute variables
 	this.a_Position = gl.getAttribLocation(gl.program, 'a_Position');
@@ -51,36 +51,36 @@ function Renderer(gl){
 		return -1;
 	}
 
-	// //get the locations of the uniform variables
-	// this.u_ProjMatrix = gl.getUniformLocation(gl.program, "u_ProjMatrix");
-	// if(this.u_ProjMatrix<0){
-	// 	console.log('Failed to get location of u_ProjMatrix');
-	// 	return;
-	// }
+	//get the locations of the uniform variables
+	this.u_ProjMatrix = gl.getUniformLocation(gl.program, "u_ProjMatrix");
+	if(this.u_ProjMatrix<0){
+		console.log('Failed to get location of u_ProjMatrix');
+		return;
+	}
 
-	// this.u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix");
-	// if(this.u_ViewMatrix<0){
-	// 	console.log('Failed to get location of u_ViewMatrix');
-	// 	return;
-	// }
+	this.u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix");
+	if(this.u_ViewMatrix<0){
+		console.log('Failed to get location of u_ViewMatrix');
+		return;
+	}
 
-	// this.u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
-	// if(this.u_ModelMatrix<0){
-	// 	console.log('Failed to get location of u_ModelMatrix');
-	// 	return;
-	// }
+	this.u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
+	if(this.u_ModelMatrix<0){
+		console.log('Failed to get location of u_ModelMatrix');
+		return;
+	}
 
-	// this.modelMatrix = new Matrix4();
-	// this.viewMatrix = new Matrix4();
-	// this.projMatrix = new Matrix4();
+	this.modelMatrix = new Matrix4();
+	this.viewMatrix = new Matrix4();
+	this.projMatrix = new Matrix4();
 
-	// this.modelMatrix.setIdentity();
-	// this.viewMatrix.setLookAt(0, 10, 0, 0, 0, 0, 0, 0, -1);
-	// this.projMatrix.setPerspective(70, 1, 1, 20);
+	this.modelMatrix.setIdentity();
+	this.viewMatrix.setLookAt(0, 9000, 0, 0, 0, 0, 0, 0, -1);
+	this.projMatrix.setPerspective(70, 1, 1, 20000);
 
-	// gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
-	// gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
-	// gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
+	gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
+	gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
+	gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
 
 	//create the graphics memory manager object
 	this.memory = new GPUMemManager(gl);

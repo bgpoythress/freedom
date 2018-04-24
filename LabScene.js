@@ -38,17 +38,17 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 
 
 
-	// sketch1.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
-	// sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
-	// sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
-	// sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
+	sketch1.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
+	sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
+	sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
+	sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
 
-	sketch1.addPoint(0.0, 0.0, 0.0, BLUE);
-	sketch1.addPoint(0.25, 0.35, 0.25, RED);
-	sketch1.addPoint(-0.25, 0.35, 0.25, GREEN);
-	sketch1.addPoint(0.25, -0.35, 0.25, WHITE);
-	sketch1.addPoint(-0.5, -.5, 0.25, BLUE);
-	sketch1.addPoint(-0.25, -0.35, 0.25, RED);
+	// sketch1.addPoint(0.0, 0.0, 0.0, BLUE);
+	// sketch1.addPoint(0.25, 0.35, 0.25, RED);
+	// sketch1.addPoint(-0.25, 0.35, 0.25, GREEN);
+	// sketch1.addPoint(0.25, -0.35, 0.25, WHITE);
+	// sketch1.addPoint(-0.5, -.5, 0.25, BLUE);
+	// sketch1.addPoint(-0.25, -0.35, 0.25, RED);
 	
 
 	this.renderList = [sketch1];
