@@ -22,6 +22,17 @@ function main(){
 		return;
 	}
 
+	//not sure this is the best way to do this.  All of this prbably needs
+	//to be in the event handler
+	var resizeCanvas = function(event){
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		console.log(event);
+	};
+
+	window.addEventListener('resize', resizeCanvas, false);
+
+	resizeCanvas();
 
 	//create the renderer instance
 	var renderer = new Renderer(gl);
@@ -47,6 +58,8 @@ function main(){
 	//starting the main game loop
 	gameLoop();
 }	
+
+
 	
 ////////////////////////////////////////////////////////////////////////////////////
 //a reference game loop from google
