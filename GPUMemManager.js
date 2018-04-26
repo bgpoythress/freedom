@@ -1,5 +1,6 @@
 //GPUMemManager.js
 //Written by Brandon Poythress 4/17/18
+//Description: 
 //There needs to be a lot of thought put into this memory manager.  right now it
 //is good enough for development.  once the program is working pretty well more 
 //attention should be given to this because the performance effects are significant.

@@ -1,4 +1,8 @@
 //ModelState.js
+//Written by Brandon Poythress
+//25APR2018
+//Description: 
+//This is the top level model class
 
 function ModelState(){
 	this.type = "State";

@@ -1,4 +1,8 @@
 //LabScene.js
+//Written by Brandon Poythress
+//25APR2018
+//Description: 
+//This class handles the setting
 
 function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 

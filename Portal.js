@@ -1,4 +1,8 @@
 //Portal.js
+//Written by Brandon Poythress
+//25APR2018
+//Description: 
+//This class represents the portal
 
 function Portal(idIn, parentIn, parentDirtyListCallback){
 	this.type = "Portal";

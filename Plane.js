@@ -1,4 +1,8 @@
 //Plane.js
+//Written by Brandon Poythress
+//25APR2018
+//Description: 
+//This class represents a plane.
 
 function Plane(idIn, parentIdIn, xIn, yIn, zIn, normalXIn, normalYIn, normalZIn, upXIn, upYIn, upZIn){
 	this.type = "Plane";

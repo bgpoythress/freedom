@@ -1,4 +1,8 @@
 //Renderer.js
+//Written by Brandon Poythress
+//17APR2018
+//Description: 
+//This class renders the state
 
 
 function Renderer(canvas){
