@@ -1,7 +1,14 @@
 //Renderer.js
 
 
-function Renderer(gl){
+function Renderer(canvas){
+
+	//get the rendering context
+	this.gl = getWebGLContext(canvas);
+	if(!this.gl){
+		console.log('Failed to get the rendering context for WebGL');
+		return;
+	}
 
 	//shader code-------------------------------------------------------------------
 	//vertex shader program
@@ -28,43 +35,43 @@ function Renderer(gl){
 		'}\n';
 	
 	//initialize shaders
-	if(!initShaders(gl, this.VSHADER_SOURCE, this.FSHADER_SOURCE)){
+	if(!initShaders(this.gl, this.VSHADER_SOURCE, this.FSHADER_SOURCE)){
 		console.log('Failed to initialize shaders.');
 		return;
 	}
 	//end of shader code-------------------------------------------------------------------	
 	
 	//Specify the color for clearing the canvas
-	gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	//gl.clear(gl.COLOR_BUFFER_BIT);
 	
 	//get the locations of the attribute variables
-	this.a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+	this.a_Position = this.gl.getAttribLocation(this.gl.program, 'a_Position');
 	if (this.a_Position<0){
 		console.log('Failed to get location of a_Position');
 		return -1;
 	}
 	
-	this.a_Color = gl.getAttribLocation(gl.program, 'a_Color');
+	this.a_Color = this.gl.getAttribLocation(this.gl.program, 'a_Color');
 	if (this.a_Color<0){
 		console.log('Failed to get location of a_Color');
 		return -1;
 	}
 
 	//get the locations of the uniform variables
-	this.u_ProjMatrix = gl.getUniformLocation(gl.program, "u_ProjMatrix");
+	this.u_ProjMatrix = this.gl.getUniformLocation(this.gl.program, "u_ProjMatrix");
 	if(this.u_ProjMatrix<0){
 		console.log('Failed to get location of u_ProjMatrix');
 		return;
 	}
 
-	this.u_ViewMatrix = gl.getUniformLocation(gl.program, "u_ViewMatrix");
+	this.u_ViewMatrix = this.gl.getUniformLocation(this.gl.program, "u_ViewMatrix");
 	if(this.u_ViewMatrix<0){
 		console.log('Failed to get location of u_ViewMatrix');
 		return;
 	}
 
-	this.u_ModelMatrix = gl.getUniformLocation(gl.program, "u_ModelMatrix");
+	this.u_ModelMatrix = this.gl.getUniformLocation(this.gl.program, "u_ModelMatrix");
 	if(this.u_ModelMatrix<0){
 		console.log('Failed to get location of u_ModelMatrix');
 		return;
@@ -75,15 +82,17 @@ function Renderer(gl){
 	this.projMatrix = new Matrix4();
 
 	this.modelMatrix.setIdentity();
-	this.viewMatrix.setLookAt(0, 9000, 0, 0, 0, 0, 0, 0, -1);
-	this.projMatrix.setPerspective(70, 1, 1, 20000);
+	this.viewMatrix.setLookAt(0, 15000, 0, 0, 0, 0, 0, 0, -1);
+	this.projMatrix.setPerspective(45, canvas.width/canvas.height, 1, 20000);
+	this.gl.viewport(0, 0, canvas.width, canvas.height);
+	console.log(this.projMatrix);
 
-	gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
-	gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
-	gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
+	this.gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
+	this.gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
+	this.gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
 
 	//create the graphics memory manager object
-	this.memory = new GPUMemManager(gl);
+	this.memory = new GPUMemManager(this.gl);
 
 }	
 	
@@ -93,7 +102,7 @@ function Renderer(gl){
 //This set of functions is the meat an potatoes of the renderer.  It  searches through
 //the data structures of the given state and recursively decides how to render each item.
 
-Renderer.prototype.render = function(gl, state){
+Renderer.prototype.render = function(state){
 
 	//first all dirty objects have to be updated
 	for (var i = 0; i<state.dirtyList.length; i++){
@@ -102,22 +111,22 @@ Renderer.prototype.render = function(gl, state){
 			state.dirtyList[i].color.r, state.dirtyList[i].color.g, state.dirtyList[i].color.b, 
 			state.dirtyList[i].color.a]);
 			console.log(verticesColors);
-		this.memory.update(gl, state.dirtyList[i], verticesColors);
+		this.memory.update(this.gl, state.dirtyList[i], verticesColors);
 		}
 
 	//then clear the dirtyList.  There is a lot of online debate about the proper way
 	//to clear an array in javascript.  beware of this if there are bugs.
 	state.dirtyList.length = 0;
 
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
 	//then all items in the render hierachy must be rendered
-	this.renderThing(gl, state);
+	this.renderThing(state);
 };
 
 
 
-Renderer.prototype.renderThing = function(gl, thingToRender){
+Renderer.prototype.renderThing = function(thingToRender){
 	//First I test the type of thing that is going to be rendered.
 	//If the thing has a renderlist it sends each thing back to this function.
 	
@@ -126,50 +135,58 @@ Renderer.prototype.renderThing = function(gl, thingToRender){
 
 	if (thingToRender.hasRenderList){
 		for (var i=0; i<thingToRender.renderList.length; i++){
-			this.renderThing(gl, thingToRender.renderList[i]);
+			this.renderThing(thingToRender.renderList[i]);
 		}
 	} else {
 		switch(thingToRender.type){
 			case "Plane":
-				this.renderPlane(gl, thingToRender);
+				this.renderPlane(thingToRender);
 				break;
 
 			case "Line":
-				this.renderLine(gl, thingToRender);
+				this.renderLine(thingToRender);
 				break;
 
 			case "Point":
-				this.renderPoint(gl, thingToRender);
+				this.renderPoint(thingToRender);
 				break;
 		}
 	}
 };
 
-Renderer.prototype.renderPlane = function(gl, plane){
+Renderer.prototype.renderPlane = function(plane){
 	
 };
 
-Renderer.prototype.renderLine = function(gl, line){
+Renderer.prototype.renderLine = function(line){
 	
 };
 
-Renderer.prototype.renderPoint = function(gl, point){
+Renderer.prototype.renderPoint = function(point){
 
 //using the point's memory index (graphics memory address), the actual memory
 //location in the buffer is stored in "memoryLocation"
 var memoryLocation = this.memory.blockList[point.graphicsMemoryAddress].location;
 
 	//draw the point
-	gl.bindBuffer(gl.ARRAY_BUFFER, this.memory.graphicsBuffer);
-	gl.vertexAttribPointer(this.a_Position, 3, gl.FLOAT, false, 28, memoryLocation);
-	gl.enableVertexAttribArray(this.a_Position);
-	gl.vertexAttribPointer(this.a_Color, 4, gl.FLOAT, false, 28, memoryLocation+12);
-	gl.enableVertexAttribArray(this.a_Color);
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.memory.graphicsBuffer);
+	this.gl.vertexAttribPointer(this.a_Position, 3, this.gl.FLOAT, false, 28, memoryLocation);
+	this.gl.enableVertexAttribArray(this.a_Position);
+	this.gl.vertexAttribPointer(this.a_Color, 4, this.gl.FLOAT, false, 28, memoryLocation+12);
+	this.gl.enableVertexAttribArray(this.a_Color);
 	
-	gl.drawArrays(gl.POINTS, 0, 1);
+	this.gl.drawArrays(this.gl.POINTS, 0, 1);
 
-	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
 	
+};
+
+Renderer.prototype.resizeCanvas = function(canvas){
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		this.gl.viewport(0, 0, canvas.width, canvas.height);
+		this.projMatrix.setPerspective(60, canvas.width/canvas.height, 1, 20000);
+		this.gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
 };
 
 

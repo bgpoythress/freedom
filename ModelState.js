@@ -19,9 +19,6 @@ function ModelState(){
 
 	//...and a renderList for each parent
 	this.renderList = [];
-	
-	//initialize the event handler.  This may move to the upper-most file
-	this.eventHandler = new EventHandler();
 
 	//initialize the scene.
 	this.scene = new LabScene(this.idGen.getId(), 
