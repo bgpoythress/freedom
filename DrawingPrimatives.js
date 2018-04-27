@@ -39,8 +39,6 @@ function Point(idIn, parentIn, parentDirtyListCallback, xIn, yIn, zIn, colorIn){
 	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
 	this.killMe = false;
 	
-	//declare itself dirty after creation
-	this.passDirtyToParent(this);
 }
 
 Point.prototype.setColorByObject = function(colorIn){
@@ -50,9 +48,6 @@ Point.prototype.setColorByObject = function(colorIn){
 	this.color.a = colorIn.a;	
 };
 
-// Point.prototype.draw = function(gl, renderer){
-// 	renderer.drawPoint(gl, this.vertexColorBuffer, 3, 4, this.FSIZE, this.n)
-// }
 
 //------------------------------------------------------------------------------------
 //Line class
@@ -70,8 +65,6 @@ function Line(idIn, parentIn, parentDirtyListCallback, point1In, point2In, color
 	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
 	this.killMe = false;
 
-	//declare itself dirty after creation
-	this.passDirtyToParent(this);
 }
 
 Line.prototype.setColorByObject = function(colorIn){
@@ -82,5 +75,20 @@ Line.prototype.setColorByObject = function(colorIn){
 	//this.point1.setColorByObject(colorIn);
 	//this.point2.setColorByObject(colorIn);	
 };
+
+//Surface class----------------------
+function Surface(idIn, parentIn, parentDirtyListCallback, colorIn){
+	this.type = "Surface";
+	this.hasRenderList = false;
+	this.graphicsMemoryAddress = null;
+	this.id = idIn;
+	this.parent =parentIn;
+	this.passDirtyToParent = parentDirtyListCallback;
+	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
+	this.killMe = false;
+	
+	this.triangles = [];
+
+}
 
 

@@ -1,4 +1,8 @@
 //Freedom.js
+//Written by Brandon Poythress
+//25APR2018
+//Description: 
+//This file is the main game loop
 
 //if there are textures you have to run a local server with the command:
 // If Python version is 3.X

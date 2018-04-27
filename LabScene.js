@@ -28,13 +28,13 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	//and when to update itself.  while working on the graphics stuff,
 	//I will just leave the plane static, but I need to work this out
 	//down the road.
-	floorPlane = new Plane(this.idGen.getId(), 
+	this.floorPlane = new Plane(this.idGen.getId(), 
 						this.id, this.dirtyListCallback.bind(this), 
 						0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0);
 
 	sketch1 = new Sketch(this.idGen.getId(), this.id,
-						this.dirtyListCallback.bind(this),
-						floorPlane);
+	 					this.dirtyListCallback.bind(this),
+	 					this.floorPlane);
 
 	//define the size of the scene in mm
 	this.width = 10000.0;
@@ -42,10 +42,10 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 
 
 
-	sketch1.addPoint(-this.width/2.0, 0.0, -this.length/2.0, BLUE);
-	sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
-	sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
-	sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
+	sketch1.addPoint(-6000, 0.0, -this.length/2.0, BLUE);
+	// sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
+	// sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
+	// sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
 
 	//sketch1.addPoint(0.0, 0.0, 0.0, BLUE);
 	// sketch1.addPoint(0.25, 0.35, 0.25, RED);
@@ -55,7 +55,8 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	// sketch1.addPoint(-0.25, -0.35, 0.25, RED);
 	
 
-	this.renderList = [sketch1];
+	this.renderList.push(this.floorPlane, sketch1);
+
 
 
 }

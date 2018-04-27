@@ -1,4 +1,8 @@
 //EventHandler.js
+//Written by Brandon Poythress
+//25APR2018
+//Description: 
+//This class handles all events
 
 function EventHandler(canvasIn, rendererIn, currentStateIn){
 
@@ -36,7 +40,7 @@ function EventHandler(canvasIn, rendererIn, currentStateIn){
 EventHandler.prototype.handleMouseDown = function(evt){
 	console.log("click!");
 	console.log(evt.x);
-	
+
 };
 
 //Implementing keyDown
