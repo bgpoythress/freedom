@@ -40,9 +40,9 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	this.width = 10000.0;
 	this.length = 10000.0;
 
+	//sketch1.addPoint(0.0, 0.0, 0.0, RED);
 
-
-	sketch1.addPoint(-6000, 0.0, -this.length/2.0, BLUE);
+	//sketch1.addPoint(-6000, 0.0, -this.length/2.0, BLUE);
 	// sketch1.addPoint(-this.width/2.0, 0.0, this.length/2.0, BLUE);
 	// sketch1.addPoint(this.width/2.0, 0.0, this.length/2.0, BLUE);
 	// sketch1.addPoint(this.width/2.0, 0.0, -this.length/2.0, BLUE);
@@ -55,7 +55,7 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 	// sketch1.addPoint(-0.25, -0.35, 0.25, RED);
 	
 
-	this.renderList.push(this.floorPlane, sketch1);
+	this.renderList.push(this.floorPlane);
 
 
 

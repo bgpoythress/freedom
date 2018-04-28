@@ -40,11 +40,16 @@ function main(){
 	
 	//holds the time of last view update
 	var lastUpdate = Date.now();
+	var currentTime = Date.now();
+	var delta;
 
 
 	//define the game Loop
 	var gameLoop = function(){
-			currentState.update(lastUpdate);
+			currentTime = Date.now();
+			delta = currentTime - lastUpdate;
+			lastUpdate = currentTime;
+			currentState.update(delta);
 			renderer.render(currentState, canvas);
 			requestAnimationFrame(gameLoop);
 	};

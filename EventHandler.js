@@ -45,11 +45,11 @@ EventHandler.prototype.handleMouseDown = function(evt){
 
 //Implementing keyDown
 EventHandler.prototype.handleKeyDown = function(evt){
-	console.log(evt.key);
+	this.currentState.onKeyDown(evt);
 };
 
 //Implementing keyUp
 EventHandler.prototype.handleKeyUp = function(evt){
-	console.log(evt.key);
+	this.currentState.onKeyUp(evt);
 };
 

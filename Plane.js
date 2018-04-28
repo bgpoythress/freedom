@@ -17,7 +17,7 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 	this.renderList = [];
 
 	//color of the plane
-	this.color = GREEN;
+	this.color = BLUE;
 
 	//callback function to the parent
 	//used to inform about children that need
@@ -43,7 +43,7 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 	//size of the plane in mm.  May be better
 	//to pass this into the constructor
 	//but for now I will hard code it
-	this.size = 10000;
+	this.size = 5000;
 
 	//create the points that make up the
 	//four corners of the plane.  We
@@ -66,35 +66,52 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 	point4 = new Point(this.idGen.getId(),
 					this.id, this.dirtyListCallback.bind(this),
 					this.size/2.0, 0.0, -this.size/2.0, this.color);
+	midPoint1 = new Point(this.idGen.getId(),
+					this.id, this.dirtyListCallback.bind(this),
+					0.0, 0.0, -this.size/2.0, RED);
+	midPoint2 = new Point(this.idGen.getId(),
+					this.id, this.dirtyListCallback.bind(this),
+					0.0, 0.0, this.size/2.0, RED);
+
+	point1.color.a = 0.2;
+	point2.color.a = 0.2;
+	point3.color.a = 0.2;
+	point4.color.a = 0.2;
 
 	//add the four lines to dirty and render lists
 	this.line1 = new Line(this.idGen.getId(),
 						this.id, this.dirtyListCallback.bind(this),
-						point1, point2, BLACK);
+						point1, point2, BLUE);
 
 	
 	
 	this.line2 = new Line(this.idGen.getId(),
 						this.id, this.dirtyListCallback.bind(this),
-						point2, point3, BLACK);
+						point2, point3, BLUE);
 	
 	
 	this.line3 = new Line(this.idGen.getId(),
 						this.id, this.dirtyListCallback.bind(this),
-						point3, point4, BLACK);
+						point3, point4, BLUE);
 	
 	this.line4 = new Line(this.idGen.getId(),
 						this.id, this.dirtyListCallback.bind(this),
-						point4, point1, BLACK);
+						point4, point1, BLUE);
+
+	this.midPointLine = new Line(this.idGen.getId(),
+						this.id, this.dirtyListCallback.bind(this),
+						midPoint1, midPoint2, BLACK);
 
 	this.passDirtyToParent(this.line1);
 	this.passDirtyToParent(this.line2);
 	this.passDirtyToParent(this.line3);
 	this.passDirtyToParent(this.line4);
+	this.passDirtyToParent(this.midPointLine);
 	this.renderList.push(this.line1);
 	this.renderList.push(this.line2);
 	this.renderList.push(this.line3);
 	this.renderList.push(this.line4);
+
 
 	//create a surface object
 	this.surface = new Surface(this.idGen.getId(),
@@ -109,6 +126,7 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 
 	this.passDirtyToParent(this.surface);
 	this.renderList.push(this.surface);
+	this.renderList.push(this.midPointLine);
 
 }
 

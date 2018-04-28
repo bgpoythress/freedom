@@ -14,6 +14,7 @@ function Renderer(canvas){
 		return;
 	}
 
+
 	//shader code-------------------------------------------------------------------
 	//vertex shader program
 	this.VSHADER_SOURCE = 
@@ -46,8 +47,11 @@ function Renderer(canvas){
 	//end of shader code-------------------------------------------------------------------	
 	
 	//Specify the color for clearing the canvas
-	this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
-	//gl.clear(gl.COLOR_BUFFER_BIT);
+	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	
+	//enable alpha blending
+	this.gl.enable(this.gl.BLEND);
+	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 	
 	//get the locations of the attribute variables
 	this.a_Position = this.gl.getAttribLocation(this.gl.program, 'a_Position');
@@ -81,17 +85,16 @@ function Renderer(canvas){
 		return;
 	}
 
-	this.modelMatrix = new Matrix4();
-	this.viewMatrix = new Matrix4();
+	//create the projection matrix.  The proj matrix
+	//is managed by the renderer.  The other matrices
+	//are managed by the model
 	this.projMatrix = new Matrix4();
 
-	this.modelMatrix.setIdentity();
-	this.viewMatrix.setLookAt(0, 15000, 0, 0, 0, 0, 0, 0, -1);
+	
 	this.projMatrix.setPerspective(45, canvas.width/canvas.height, 1, 20000);
 	this.gl.viewport(0, 0, canvas.width, canvas.height);
 
-	this.gl.uniformMatrix4fv(this.u_ModelMatrix, false, this.modelMatrix.elements);
-	this.gl.uniformMatrix4fv(this.u_ViewMatrix, false, this.viewMatrix.elements);
+	
 	this.gl.uniformMatrix4fv(this.u_ProjMatrix, false, this.projMatrix.elements);
 
 	//create the graphics memory manager object
@@ -106,6 +109,11 @@ function Renderer(canvas){
 //the data structures of the given state and recursively decides how to render each item.
 
 Renderer.prototype.render = function(state){
+
+	//set the Model and View Matrix data from the state object
+
+	this.gl.uniformMatrix4fv(this.u_ModelMatrix, false, state.modelMatrix.elements);
+	this.gl.uniformMatrix4fv(this.u_ViewMatrix, false, state.viewMatrix.elements);
 
 	//first all dirty objects have to be updated
 	for (var i = 0; i<state.dirtyList.length; i++){
@@ -188,11 +196,11 @@ Renderer.prototype.generateArray = function(dirtyObject){
 
 			verticesColors = new Float32Array([
 			point1.x, point1.y, point1.z,
-			point1.color.r, point1.color.g, point1.color.b, 
-			point1.color.a,
+			dirtyObject.color.r, dirtyObject.color.g, dirtyObject.color.b, 
+			dirtyObject.color.a,
 			point2.x, point2.y, point2.z,
-			point2.color.r, point2.color.g, point2.color.b, 
-			point2.color.a]);
+			dirtyObject.color.r, dirtyObject.color.g, dirtyObject.color.b, 
+			dirtyObject.color.a]);
 
 			return verticesColors;
 
