@@ -47,7 +47,7 @@ function Renderer(canvas){
 	//end of shader code-------------------------------------------------------------------	
 	
 	//Specify the color for clearing the canvas
-	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	this.gl.clearColor(0.0, 1.0, 1.0, 1.0);
 	
 	//enable alpha blending
 	this.gl.enable(this.gl.BLEND);

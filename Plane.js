@@ -17,8 +17,7 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 	this.renderList = [];
 
 	//color of the plane
-	this.color = BLUE;
-
+	this.color = GREEN;
 	//callback function to the parent
 	//used to inform about children that need
 	//to be updated in the GPU because they have
@@ -73,10 +72,10 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 					this.id, this.dirtyListCallback.bind(this),
 					0.0, 0.0, this.size/2.0, RED);
 
-	point1.color.a = 0.2;
-	point2.color.a = 0.2;
-	point3.color.a = 0.2;
-	point4.color.a = 0.2;
+	point1.color.a = 1.0;
+	point2.color.a = 1.0;
+	point3.color.a = 1.0;
+	point4.color.a = 1.0;
 
 	//add the four lines to dirty and render lists
 	this.line1 = new Line(this.idGen.getId(),
