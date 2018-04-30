@@ -45,6 +45,27 @@ Contains the following methods:
 * renderSurface(surface) - takes a surface object and returns nothing.  It is a helper function to render thing with specific drawing instructions for the surface type of object.
 * resizeCanvas(canvas) - takes a canvas object and returns nothing.  This method updates the view if the browser window is resized.
 
+**ModelState.js** - The ModelState class is the top level State Class.
+
+Contains the following objects/variables:
+* this.type - is of the type "State".
+* this.hasRenderList - anything that has renderable children contains this variable set to "true".  When the renderer parses through the Model Hierarchy, it looks at this variable in order to make rendering decisions.
+* this.idGen - and instance of the IdGenerator class.  This is in charge of assigning id numbers to child objects.
+* this.id - id number.
+* this.modelMatrix - model matrix for the ModelState.
+* this.viewMatrix - the point of view of the viewer.  This may be moved to a "Human" class object later on.
+* this.dirtyList - a top level list that contains any children that are new or have changed and need to be passed to the renderer for updating the GPU buffer.  All child objects use a dirtyListCallback function to fill this list as objects become dirty.
+* this.renderList = list of ALL objects to be rendered.  This contains both dirty and clean objects.
+* this.scene - an instance that cantains all data for the scene.
+* this.portal - a portal is a table that projects the actual cad model in the air above it.  Like in the IronMan movies.  There is always at least one of these.  The program may be expanded in the future to allow for multiple portals.
+
+Contains the following methods:
+* update(delta) - takes the amount of time since the last render and returns nothing.  It updates the ModelState and calls the update function in it's children.
+* dirtyListCallback(dirtyObject) - takes any renderable object and returns nothing.  All child objects can communicate with their parent using this callback.  This method adds the object to the dirtyList in the modelState which is updated by the renderer.
+* onKeyDown(evt) and onKeyUp(evt) - used by the EventHandler class to pass events to the ModelState. The ModelState can then react to the event in any way necessary.
+
+
+
 
 
 

@@ -46,7 +46,7 @@ function ModelState(){
 								0, 1, 0);
 	
 	//movement per millisecond
-	this.acceleration = 0.001;
+	this.acceleration = 0.0005;
 
 	//the dirtyList and the renderList is the handshake between the "model" 
 	//and the "view". The model and the renderer both have access to it.   
