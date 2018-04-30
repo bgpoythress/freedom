@@ -160,6 +160,11 @@ Renderer.prototype.renderThing = function(thingToRender){
 			case "Point":
 				this.renderPoint(thingToRender);
 				break;
+
+			default:
+				if(debugging){
+					console.log("could not render: " + thingToRender);
+				}
 		}
 	}
 };
@@ -248,7 +253,7 @@ Renderer.prototype.renderLine = function(line){
 	this.gl.enableVertexAttribArray(this.a_Position);
 	this.gl.vertexAttribPointer(this.a_Color, 4, this.gl.FLOAT, false, 28, memoryLocation+12);
 	this.gl.enableVertexAttribArray(this.a_Color);
-	
+
 	this.gl.drawArrays(this.gl.LINES, 0, 2);
 
 	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
