@@ -1,7 +1,7 @@
 //Sketch.js
 function Sketch(idIn, parentIn, parentDirtyListCallback, planeIn){
 	this.type = "Sketch";
-	this.hasRenderList = true;
+	this.usesRenderList = true;
 	this.id = idIn;
 	this.parent = parentIn;
 	this.passDirtyToParent = parentDirtyListCallback;

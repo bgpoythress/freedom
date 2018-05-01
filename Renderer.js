@@ -143,7 +143,7 @@ Renderer.prototype.renderThing = function(thingToRender){
 	//First I test the type of thing that is going to be rendered.
 	//If the thing has a renderlist it sends each thing back to this function.
 
-	if (thingToRender.hasRenderList){
+	if (thingToRender.usesRenderList){
 		for (var i=0; i<thingToRender.renderList.length; i++){
 			this.renderThing(thingToRender.renderList[i]);
 		}
@@ -163,7 +163,8 @@ Renderer.prototype.renderThing = function(thingToRender){
 
 			default:
 				if(debugging){
-					console.log("could not render: " + thingToRender);
+					console.log("could not render: " + thingToRender.type);
+
 				}
 		}
 	}

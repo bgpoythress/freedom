@@ -4,19 +4,26 @@
 //Description: 
 //This class handles the setting
 
-function LabScene(idIn, parentIdIn, parentDirtyListCallback){
+function LabScene(idIn, parentIdIn, parentDirtyListCallbackIn){
 
-	this.type = "Scene";
-	this.id = idIn;
-	this.parent = parentIdIn;
-	this.hasRenderList = true;
-	this.idGen = new IdGenerator();
+	ModelObject.call(this, "Scene", idIn, parentIdIn, true, parentDirtyListCallbackIn);
+	
+	console.log(this.type);
+	console.log(this.usesRenderList);
+	
 
-	this.renderList = [];
-	this.dirtyList = [];
+
+
+	// this.type = "Scene";
+	// this.id = idIn;
+	// this.parent = parentIdIn;
+	// this.hasRenderList = true;
+	// this.idGen = new IdGenerator();
+
+	// this.renderList = [];
 	
 	//assign the callback function to the scene object
-	this.passDirtyToParent = parentDirtyListCallback;
+	// this.passDirtyToParent = parentDirtyListCallback;
 
 
 	//to test the rendering system, the lab scene will contain a single sketch
@@ -68,10 +75,16 @@ function LabScene(idIn, parentIdIn, parentDirtyListCallback){
 
 //Every parent object must have a callback function that allows children
 //to communitate to it "up the chain".
-LabScene.prototype.dirtyListCallback = function(dirtyObject){
-	this.passDirtyToParent(dirtyObject);
-};
+// LabScene.prototype.dirtyListCallback = function(dirtyObject){
+// 	this.passDirtyToParent(dirtyObject);
+// };
+
+
+
+LabScene.prototype = Object.create(ModelObject.prototype);
 
 LabScene.prototype.update = function(lastUpdate){
 
 };
+
+LabScene.prototype.constructor = LabScene;

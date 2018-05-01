@@ -5,11 +5,12 @@
 //This is the top level model class
 
 function ModelState(){
-	this.type = "State";
-	this.hasRenderList = true;
-	this.idGen = new IdGenerator();
-	//an id of 0 inticates the root model object
-	this.id = 0;  
+	
+	//Inherits from ModelObject but because it is the top level object
+	//it does not use id, parentId, or parentDirtyListCallback so they
+	//are set to null.  It also does not need ModelObject methods,
+	//so ModelState doesnt grab its prototypes.
+	ModelObject.call(this, "State", null, null, true, null);
 
 	//the state object manages its own model matrix
 	//and view matrix.  The renderer handles proj
@@ -57,8 +58,7 @@ function ModelState(){
 	//i am going to try a single dirtyList for everything
 	this.dirtyList = [];
 
-	//...and a renderList for each parent
-	this.renderList = [];
+	
 
 	//initialize the scene.
 	this.scene = new LabScene(this.idGen.getId(), 
@@ -86,6 +86,10 @@ function ModelState(){
 // 	this.portal.draw(gl, renderer);
 // }
 
+ModelState.prototype.dirtyListCallback = function(dirtyObject){
+	this.dirtyList.push(dirtyObject);
+};
+
 
 
 ModelState.prototype.update = function(delta){
@@ -111,9 +115,7 @@ ModelState.prototype.update = function(delta){
 	this.portal.update(delta);
 };
 
-ModelState.prototype.dirtyListCallback = function(dirtyObject){
-	this.dirtyList.push(dirtyObject);
-};
+
 
 ModelState.prototype.onKeyDown = function(evt){
 	

@@ -13,7 +13,7 @@ function Plane(idIn, parentIdIn, parentDirtyListCallback, xIn, yIn, zIn, normalX
 	this.idGen = new IdGenerator();
 
 	//rendering information
-	this.hasRenderList = true;
+	this.usesRenderList = true;
 	this.renderList = [];
 
 	//color of the plane

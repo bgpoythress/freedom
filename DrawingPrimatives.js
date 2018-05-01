@@ -26,18 +26,18 @@ var WHITE = new Color(1.0, 1.0, 1.0, 1.0);
 
 //------------------------------------------------------------------------------------
 //Point class
-function Point(idIn, parentIn, parentDirtyListCallback, xIn, yIn, zIn, colorIn){
-	this.type = "Point";
-	this.hasRenderList = false;
-	this.graphicsMemoryAddress = null;
-	this.id = idIn;
-	this.parent = parentIn;
-	this.passDirtyToParent = parentDirtyListCallback;
+function Point(idIn, parentIdIn, parentDirtyListCallbackIn, xIn, yIn, zIn, colorIn){
+	
+	//Point inherits properties from ModelObject but not methods
+	ModelObject.call(this, "Point", idIn, parentIdIn, false, parentDirtyListCallbackIn);
+
+	//Point is a drawable object
+	DrawableObject.call(this);
+	
 	this.x = xIn;
 	this.y = yIn;
 	this.z = zIn;
-	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
-	this.killMe = false;
+	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);	
 	
 }
 
@@ -51,19 +51,18 @@ Point.prototype.setColorByObject = function(colorIn){
 
 //------------------------------------------------------------------------------------
 //Line class
-function Line(idIn, parentIn, parentDirtyListCallback, point1In, point2In, colorIn){
-	this.type = "Line";
-	this.hasRenderList = false;
-	this.graphicsMemoryAddress = null;
-	this.id = idIn;
-	this.parent =parentIn;
-	this.passDirtyToParent = parentDirtyListCallback;
+function Line(idIn, parentIdIn, parentDirtyListCallbackIn, point1In, point2In, colorIn){
+	
+	//Line inherits properties from ModelObject but not methods
+	ModelObject.call(this, "Line", idIn, parentIdIn, false, parentDirtyListCallbackIn);
+
+	//Line is a drawable object
+	DrawableObject.call(this);
+
 	this.point1 = point1In;
 	this.point2 = point2In;
-	//this.point1.setColorByObject(colorIn); may not be necessary.  
-	//this.point2.setColorByObject(colorIn); may not be necessary. 
+	
 	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
-	this.killMe = false;
 
 }
 
@@ -77,15 +76,15 @@ Line.prototype.setColorByObject = function(colorIn){
 };
 
 //Surface class----------------------
-function Surface(idIn, parentIn, parentDirtyListCallback, colorIn){
-	this.type = "Surface";
-	this.hasRenderList = false;
-	this.graphicsMemoryAddress = null;
-	this.id = idIn;
-	this.parent =parentIn;
-	this.passDirtyToParent = parentDirtyListCallback;
+function Surface(idIn, parentIdIn, parentDirtyListCallbackIn, colorIn){
+	//Surface inherits properties from ModelObject but not methods
+	ModelObject.call(this, "Surface", idIn, parentIdIn, false, parentDirtyListCallbackIn);
+
+	//Surface is a drawable object
+	DrawableObject.call(this);
+
 	this.color = new Color(colorIn.r, colorIn.g, colorIn.b, colorIn.a);
-	this.killMe = false;
+	
 	
 	this.triangles = [];
 

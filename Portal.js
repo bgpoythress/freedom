@@ -12,7 +12,7 @@ function Portal(idIn, parentIn, parentDirtyListCallback){
 	//assign the callback function to the scene object
 	this.tellParentThatImDirty = parentDirtyListCallback;
 
-	this.hasRenderList = true;
+	this.usesRenderList = true;
 	this.renderList = [];
 	this.dirtyList = [];
 	//this.init(gl);
