@@ -185,9 +185,9 @@ Renderer.prototype.generateArray = function(dirtyObject){
 			verticesColors = new Float32Array(trianglesLength * components);
 			
 			for(i = 0; i<trianglesLength; i++){
-				verticesColors[i*components] = dirtyObject.triangles[i].x;
-				verticesColors[(i*components)+1] = dirtyObject.triangles[i].y;
-				verticesColors[(i*components)+2] = dirtyObject.triangles[i].z;
+				verticesColors[i*components] = dirtyObject.triangles[i].vertex.x;
+				verticesColors[(i*components)+1] = dirtyObject.triangles[i].vertex.y;
+				verticesColors[(i*components)+2] = dirtyObject.triangles[i].vertex.z;
 				verticesColors[(i*components)+3] = dirtyObject.triangles[i].color.r;
 				verticesColors[(i*components)+4] = dirtyObject.triangles[i].color.g;
 				verticesColors[(i*components)+5] = dirtyObject.triangles[i].color.b;
@@ -201,10 +201,10 @@ Renderer.prototype.generateArray = function(dirtyObject){
 			point2 = dirtyObject.point2;
 
 			verticesColors = new Float32Array([
-			point1.x, point1.y, point1.z,
+			point1.vertex.x, point1.vertex.y, point1.vertex.z,
 			dirtyObject.color.r, dirtyObject.color.g, dirtyObject.color.b, 
 			dirtyObject.color.a,
-			point2.x, point2.y, point2.z,
+			point2.vertex.x, point2.vertex.y, point2.vertex.z,
 			dirtyObject.color.r, dirtyObject.color.g, dirtyObject.color.b, 
 			dirtyObject.color.a]);
 
@@ -213,7 +213,7 @@ Renderer.prototype.generateArray = function(dirtyObject){
 		case "Point":
 
 			verticesColors = new Float32Array([
-			dirtyObject.x, dirtyObject.y, dirtyObject.z,
+			dirtyObject.vertex.x, dirtyObject.vertex.y, dirtyObject.vertex.z,
 			dirtyObject.color.r, dirtyObject.color.g, dirtyObject.color.b, 
 			dirtyObject.color.a]);
 

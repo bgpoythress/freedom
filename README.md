@@ -64,6 +64,23 @@ Contains the following methods:
 * dirtyListCallback(dirtyObject) - takes any renderable object and returns nothing.  All child objects can communicate with their parent using this callback.  This method adds the object to the dirtyList in the modelState which is updated by the renderer.
 * onKeyDown(evt) and onKeyUp(evt) - used by the EventHandler class to pass events to the ModelState. The ModelState can then react to the event in any way necessary.
 
+**Vertex.js** - the simplest thing.  it just contains x, y, and z components.  Thats it.
+
+**Point.js** - a vertext that can be displayed and interacted with. 
+
+Constructor: idIn, parentIdIn, parentDirtyListCallbackIn, xIn, yIn, zIn, colorIn.  Returns nothing.
+
+Contains the following objects/variabls:
+* implements the ModelObject via "call".
+* implements the DrawableObject via "call".
+* this.vertex - contains the position data
+* this. color - contains the point's color
+
+Contains the following methods:
+* setColorByObject(colorIn) - takes in a color object and returns nothing.  Sets the color of the point.  this is already done in the constructor, but this is how you change it if you need to.
+
+
+
 
 
 
