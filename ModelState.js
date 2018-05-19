@@ -18,7 +18,12 @@ function ModelState(){
 	this.modelMatrix = new Matrix4();
 	this.viewMatrix = new Matrix4();
 
-	this.modelMatrix.setIdentity();
+	this.inverseModelMatrix = new Matrix4();
+	this.inverseViewMatrix = new Matrix4();
+
+	this.tempWorldRay = new Vector4();
+	this.worldRay = new Vector3();
+
 
 	//some temporary code to test moving around
 	this.radius = -2500;
@@ -191,4 +196,26 @@ ModelState.prototype.onKeyUp = function(evt){
 			break;
 	}
 	
+};
+
+ModelState.prototype.onMouseUp = function(evt, eyeRay){
+
+	//step 4: get everything into world coordinates
+	this.inverseViewMatrix.setInverseOf(this.viewMatrix);
+
+	//fill a temporary Vector4 that will be reduced to a Vector3
+	this.tempWorldRay = this.inverseViewMatrix.multiplyVector4(eyeRay);
+	
+	//fill the vector3
+	this.worldRay.elements[0] = this.tempWorldRay.elements[0];
+	this.worldRay.elements[1] = this.tempWorldRay.elements[1];
+	this.worldRay.elements[2] = this.tempWorldRay.elements[2];
+
+	this.worldRay.normalize();
+
+	console.log(this.worldRay);
+
+	this.scene.onMouseUp(this.eyeX, this.eyeY, this.eyeZ, this.worldRay);
+
+
 };

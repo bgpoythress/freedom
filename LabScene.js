@@ -88,3 +88,8 @@ LabScene.prototype.update = function(lastUpdate){
 };
 
 LabScene.prototype.constructor = LabScene;
+
+LabScene.prototype.onMouseUp = function(eyeX, eyeY, eyeZ, worldRay){
+	
+
+};

@@ -29,11 +29,8 @@ function main(){
 	//event handler
 	var eventHandler = new EventHandler(canvas, renderer, currentState);
 
-	
-
 	//size the canvase based on the current browser window size
 	renderer.resizeCanvas(canvas);
-
 
 	//There will probably be a function call somewhere around here that loads
 	//existing saved data if there is any.
@@ -42,7 +39,6 @@ function main(){
 	var lastUpdate = Date.now();
 	var currentTime = Date.now();
 	var delta;
-
 
 	//define the game Loop
 	var gameLoop = function(){
@@ -59,5 +55,3 @@ function main(){
 }	
 
 
-	
-////////////////////////////////////////////////////////////////////////////////////
